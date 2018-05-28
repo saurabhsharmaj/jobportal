@@ -11,3 +11,7 @@ CREATE TABLE `jobportal`.`users` (
   
 INSERT INTO `jobportal`.`users` (`userId`, `username`, `password`, `email`) VALUES ('1', 'saurabh', 'demo123', 'saurabh.find@gmail.com');
 INSERT INTO `jobportal`.`users` (`userId`, `username`, `password`, `email`) VALUES ('2', 'kamlesh', 'demo124', 'kamlesh@gmail.com');
+
+
+ALTER TABLE `jobportal`.`users` 
+CHANGE COLUMN `userId` `userId` INT(11) NOT NULL AUTO_INCREMENT COMMENT '' ;
