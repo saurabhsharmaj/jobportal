@@ -16,25 +16,40 @@
 
 <div class="container">
 <a href="users">users</a>
+<%
+User user;
+if(request.getAttribute("user") != null){
+  	user = (User)request.getAttribute("user");
+} else {
+	user=new User();
+}
+%>
 	<div class="row">
 		<div class ="col-lg-4">
 					<form action="users" method="post">
+							<input type="hidden" name="userId" value="<%=user.getUserId()%>">
 							<div class="form-group">
-								<input  type="text" name="username" class="form-control" placeholder="enter username">
+								<input  type="text" name="username" class="form-control" value="<%=user.getUsername() %>" placeholder="enter username">
 							</div>
 							<div class="form-group">
-								<input type="password"  name="password" class="form-control" placeholder="enter password">
+								<input type="password"  name="password" class="form-control" value="<%=user.getPassword() %>" placeholder="enter password">
 							</div>
 							<div class="form-group">
-								<input type="text"  name="email" class="form-control" placeholder="enter email">
+								<input type="text"  name="email" class="form-control" value="<%=user.getEmail()%>" placeholder="enter email">
 							</div>
-							<div class="form-group">							
-								<input type="submit"  class="form-control" value="save">
+							<div class="form-group">
+								<%if(request.getAttribute("action") !=null && request.getAttribute("action").equals("edit")) {%>							
+									<input type="submit"  class="form-control" value="edit">
+								<%} else { %>
+									<input type="submit"  class="form-control" value="save">
+								<%} %>
+								<input type="reset"  class="form-control" value="reset">
+								
 							</div>
 					</form>
 		</div>
-		<div class="col-lg-6">
-			<table>
+		<div class="table-responsive col-lg-6">
+			<table class="table .table-striped">
 			<tr>
 			<th>id</th>
 			<th>username</th>
@@ -53,7 +68,13 @@
 					<td><%=users.get(i).getUsername() %></td>
 					<td><%=users.get(i).getPassword() %></td>
 					<td><%=users.get(i).getEmail() %></td>
-					<td><a href="./deleteuser?userId=<%=users.get(i).getUserId()%>">delete</a></td>
+					<td><a href="./useraction?action=delete&userId=<%=users.get(i).getUserId()%>">
+							<img src="./images/delete.png">
+						</a>
+						<a href="./useraction?action=edit&userId=<%=users.get(i).getUserId()%>">
+							<img src="./images/edit.png">
+						</a>
+					</td>
 				</tr>
 			<%}
 				}%>

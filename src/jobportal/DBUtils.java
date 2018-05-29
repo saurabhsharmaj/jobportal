@@ -70,4 +70,42 @@ public class DBUtils {
 			ex.printStackTrace();
 		}
 	}
+
+	public static User getUser(int userId) {
+		User user = null;
+		try {
+			Connection con = getConnection();
+			Statement stmt = con.createStatement();
+			String sql= "SELECT * FROM "
+					+ "`jobportal`.`users`"
+					+ " WHERE userId="+userId;
+			ResultSet rs=stmt.executeQuery(sql);
+			while (rs.next()) {
+				user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				
+			}
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return user;
+	}
+
+	public static void updateUser(User user) {
+		try {
+			Connection con = getConnection();
+			Statement stmt = con.createStatement();
+			String sql= "UPDATE "
+					+ "`jobportal`.`users`"
+					+ " SET `username` ='"+user.getUsername()+"',"
+							+ " `password`='"+user.getPassword()+"',"
+							+ " `email`='"+user.getEmail()+"'"
+						+ " WHERE `userId`="+user.getUserId();
+			System.out.println(sql);
+			stmt.executeUpdate(sql);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+	}
 }

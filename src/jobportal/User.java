@@ -3,9 +3,9 @@ package jobportal;
 public class User {
 
 	int userId;
-	String username;
-	String password;
-	String email;
+	String username="";
+	String password="";
+	String email="";
 	
 	public User(){
 		
