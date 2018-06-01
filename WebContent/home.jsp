@@ -12,6 +12,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
   </head>
+  <style>
+  	.profile-pic{
+	  	height: 50px;
+	    width: 50px;
+    }
+  </style>
 <body>
 
 <div class="container">
@@ -29,6 +35,9 @@ if(request.getAttribute("user") != null){
 					<form action="users" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="userId" value="<%=user.getUserId()%>">
 							<div class="form-group">
+								<%if(user.getUserId() > 0) {%>
+								<img class="profile-pic" src="./useraction?action=image&userId=<%=user.getUserId() %>"/>
+								<%} %>
 								<input type="file" name="imgPath" />
 							</div>
 							<div class="form-group">
@@ -55,10 +64,10 @@ if(request.getAttribute("user") != null){
 			<table class="table .table-striped">
 			<tr>
 			<th>id</th>
+			<th>Image</th>
 			<th>username</th>
 			<th>password</th>
 			<th>email</th>
-			<th>Image Path</th>
 			<th>Action</th>
 			</tr>
 			
@@ -69,10 +78,10 @@ if(request.getAttribute("user") != null){
 			%>
 				<tr>
 					<td><%=users.get(i).getUserId() %></td>
+					<td><img class="profile-pic" src="./useraction?action=image&userId=<%=users.get(i).getUserId() %>"/></td>
 					<td><%=users.get(i).getUsername() %></td>
 					<td><%=users.get(i).getPassword() %></td>
-					<td><%=users.get(i).getEmail() %></td>
-					<td><%=users.get(i).getImgPath() %></td>
+					<td><%=users.get(i).getEmail() %></td>					
 					<td><a href="./useraction?action=delete&userId=<%=users.get(i).getUserId()%>">
 							<img src="./images/delete.png">
 						</a>

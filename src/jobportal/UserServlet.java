@@ -20,7 +20,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @WebServlet("/users")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String UPLOAD_DIRECTORY = "d:/jobportal/";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -58,6 +57,9 @@ public class UserServlet extends HttpServlet {
 
 	private User saveImage(HttpServletRequest request, HttpServletResponse response) { 
         //process only if its multipart content
+		String UPLOAD_DIRECTORY = "/images/user/";
+		UPLOAD_DIRECTORY=request.getContextPath()+UPLOAD_DIRECTORY;
+		System.out.println(UPLOAD_DIRECTORY);
 		File  uploadFile = null;
 		User user = new User();
         if(ServletFileUpload.isMultipartContent(request)){
@@ -69,7 +71,7 @@ public class UserServlet extends HttpServlet {
                         File uploadDir = new File(UPLOAD_DIRECTORY) ;
                         uploadDir.mkdirs();
                         uploadFile =  new File(uploadDir, File.separator + name);
-                        user.setImgPath(uploadFile.getAbsolutePath().replace("\\", "\\\\"));
+                        user.setImgPath(uploadFile.getPath().replace("\\", "\\\\"));
                         item.write(uploadFile);
                     } else if(item.isFormField()){
                     	String fieldName = item.getFieldName();
