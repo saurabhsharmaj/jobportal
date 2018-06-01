@@ -26,8 +26,11 @@ if(request.getAttribute("user") != null){
 %>
 	<div class="row">
 		<div class ="col-lg-4">
-					<form action="users" method="post">
+					<form action="users" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="userId" value="<%=user.getUserId()%>">
+							<div class="form-group">
+								<input type="file" name="imgPath" />
+							</div>
 							<div class="form-group">
 								<input  type="text" name="username" class="form-control" value="<%=user.getUsername() %>" placeholder="enter username">
 							</div>
@@ -48,13 +51,14 @@ if(request.getAttribute("user") != null){
 							</div>
 					</form>
 		</div>
-		<div class="table-responsive col-lg-6">
+		<div class="table-responsive col-lg-8">
 			<table class="table .table-striped">
 			<tr>
 			<th>id</th>
 			<th>username</th>
 			<th>password</th>
 			<th>email</th>
+			<th>Image Path</th>
 			<th>Action</th>
 			</tr>
 			
@@ -68,6 +72,7 @@ if(request.getAttribute("user") != null){
 					<td><%=users.get(i).getUsername() %></td>
 					<td><%=users.get(i).getPassword() %></td>
 					<td><%=users.get(i).getEmail() %></td>
+					<td><%=users.get(i).getImgPath() %></td>
 					<td><a href="./useraction?action=delete&userId=<%=users.get(i).getUserId()%>">
 							<img src="./images/delete.png">
 						</a>

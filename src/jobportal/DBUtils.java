@@ -28,7 +28,7 @@ public class DBUtils {
 
 			ResultSet rs = stmt.executeQuery("select * from users");
 			while (rs.next()) {
-				User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(5));
 				users.add(user);
 			}
 		} catch (Exception ex) {
@@ -81,7 +81,7 @@ public class DBUtils {
 					+ " WHERE userId="+userId;
 			ResultSet rs=stmt.executeQuery(sql);
 			while (rs.next()) {
-				user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 				
 			}
 			
@@ -99,7 +99,8 @@ public class DBUtils {
 					+ "`jobportal`.`users`"
 					+ " SET `username` ='"+user.getUsername()+"',"
 							+ " `password`='"+user.getPassword()+"',"
-							+ " `email`='"+user.getEmail()+"'"
+							+ " `email`='"+user.getEmail()+"',"
+							+ "`imgpath`='"+user.getImgPath()+"'"
 						+ " WHERE `userId`="+user.getUserId();
 			System.out.println(sql);
 			stmt.executeUpdate(sql);

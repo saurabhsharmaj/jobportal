@@ -6,19 +6,20 @@ public class User {
 	String username="";
 	String password="";
 	String email="";
-	
+	String imgPath ="default.png";
 	public User(){
 		
 	}
 	
-	public User(int id , String username,String password, String email){
+	public User(int id , String username,String password, String email, String imgPath){
 		this.userId=id;
 		this.username=username;
 		this.password=password;
 		this.email=email;
+		this.imgPath=imgPath;
 	}
 	
-	public int getUserId() {
+	public  int getUserId() {
 		return userId;
 	}
 	public void setUserId(int userId) {
@@ -42,5 +43,12 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
 }
