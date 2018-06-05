@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<div class="container" align="center">
+<div class="container" align="center" >
  	<div class="row">
  	  <form action="Vendor" method="post">
  	  <input type="hidden" name="userId" >
