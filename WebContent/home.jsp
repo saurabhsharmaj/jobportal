@@ -5,6 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+ 	<link rel="shortcut icon" href="logo.PNG">
+	<title>Job Portal Home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -12,16 +14,31 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
   </head>
-  <style>
-  	.profile-pic{
-	  	height: 50px;
-	    width: 50px;
-    }
-  </style>
 <body>
 
+			<%
+			response.setHeader("cache-control", "no-cache, no-store, must-revalidate");
+			if(session.getAttribute("username")==null){
+				request.setAttribute("msg", " Please Login First.");
+				request.getRequestDispatcher("index.jsp").forward(request, response);}
+			%>
+			
+
+<div class="row">
+		
+			<div class="col-lg-1">
+				<form action="LogIn" method="get">
+					<input type="submit" name="Logout" value="Logout">		
+				</form>
+			</div>
+			<div class="col-lg-5"><%=request.getAttribute("LogIn")==null?"":request.getAttribute("LogIn")%></div>
+		
+</div>
+
+
+<%=request.getAttribute("resultmsg")==null?"-":request.getAttribute("resultmsg") %>
 <div class="container">
-<a href="users">users</a>
+
 <%
 User user;
 if(request.getAttribute("user") != null){
@@ -32,14 +49,8 @@ if(request.getAttribute("user") != null){
 %>
 	<div class="row">
 		<div class ="col-lg-4">
-					<form action="users" method="post" enctype="multipart/form-data">
+					<form action="users" method="post">
 							<input type="hidden" name="userId" value="<%=user.getUserId()%>">
-							<div class="form-group">
-								<%if(user.getUserId() > 0) {%>
-								<img class="profile-pic" src="./useraction?action=image&userId=<%=user.getUserId() %>"/>
-								<%} %>
-								<input type="file" name="imgPath" />
-							</div>
 							<div class="form-group">
 								<input  type="text" name="username" class="form-control" value="<%=user.getUsername() %>" placeholder="enter username">
 							</div>
@@ -50,21 +61,34 @@ if(request.getAttribute("user") != null){
 								<input type="text"  name="email" class="form-control" value="<%=user.getEmail()%>" placeholder="enter email">
 							</div>
 							<div class="form-group">
+							<div class="row">
+								<div class="col-lg-6">
 								<%if(request.getAttribute("action") !=null && request.getAttribute("action").equals("edit")) {%>							
 									<input type="submit"  class="form-control" value="edit">
 								<%} else { %>
 									<input type="submit"  class="form-control" value="save">
 								<%} %>
+								</div>
+								<div class="col-lg-6">
 								<input type="reset"  class="form-control" value="reset">
+								</div>
+							</div>	
 								
 							</div>
 					</form>
+		<div>
+			<form action="search">
+					<div><input type="text" name="search" placeholder="search username here" class="form-control"></div>
+					<div><input type="submit" name="submit" value="Search" class="form-control"></div>
+			</form>
+		
 		</div>
-		<div class="table-responsive col-lg-8">
-			<table class="table .table-striped">
+		</div>
+		
+		<div class="table-responsive col-lg-6">
+			<table class="table-striped">
 			<tr>
 			<th>id</th>
-			<th>Image</th>
 			<th>username</th>
 			<th>password</th>
 			<th>email</th>
@@ -73,15 +97,14 @@ if(request.getAttribute("user") != null){
 			
 			<%
 			if(request.getAttribute("users") != null){
-				List<User> users = (List<User>)request.getAttribute("users");
+			    List<User> users = (List<User>)request.getAttribute("users");
 				for(int i=0; i < users.size(); i++){
 			%>
 				<tr>
 					<td><%=users.get(i).getUserId() %></td>
-					<td><img class="profile-pic" src="./useraction?action=image&userId=<%=users.get(i).getUserId() %>"/></td>
 					<td><%=users.get(i).getUsername() %></td>
 					<td><%=users.get(i).getPassword() %></td>
-					<td><%=users.get(i).getEmail() %></td>					
+					<td><%=users.get(i).getEmail() %></td>
 					<td><a href="./useraction?action=delete&userId=<%=users.get(i).getUserId()%>">
 							<img src="./images/delete.png">
 						</a>
@@ -95,6 +118,14 @@ if(request.getAttribute("user") != null){
 			</table>
 		</div>
 	</div>
+	
+	
+
+	
+	
+	
+	
+	
 </div>
 </body>
 </html>

@@ -114,4 +114,46 @@ public class DBUtils {
 		}
 		
 	}
+	
+	public static boolean isUserExist(String username, String password) {
+		try {
+			Connection con = getConnection();
+			Statement stmt = con.createStatement();
+			String sql= "SELECT * FROM "
+					+ "`jobportal`.`users`"
+					+ " WHERE username='"+username+"' and password='"+password+"'";
+			System.out.println(sql);
+			ResultSet rs=stmt.executeQuery(sql);
+			while (rs.next()) {
+				return true;
+				
+			}
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return false;
+	}
+	
+	public static List<User> SearchKey(String Key) {
+		List<User> users = new ArrayList<User>();
+		try {
+			Connection con = getConnection();
+			Statement stmt = con.createStatement();
+			String sql= "SELECT * FROM "
+					+ "`jobportal`.`users`"
+					+ " WHERE username LIKE '%"+Key+"%' order by username";
+			System.out.println(sql);
+			ResultSet rs=stmt.executeQuery(sql);
+			while (rs.next()) {
+				User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+				users.add(user);
+				
+			}
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return users;
+	}
 }
