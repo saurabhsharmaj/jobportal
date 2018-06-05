@@ -22,7 +22,7 @@
       <a class="nav-link" href="./staff.jsp">Staff</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">vendor</a>
+      <a class="nav-link" href="./vendor.jsp">vendor</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="#">Link 3</a>
