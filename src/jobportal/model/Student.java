@@ -1,4 +1,4 @@
-package jobportal;
+package jobportal.model;
 
 public class Student {
 	

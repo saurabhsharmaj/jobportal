@@ -1,4 +1,4 @@
-package jobportal;
+package jobportal.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jobportal.dao.StudentDao;
+import jobportal.model.Student;
 
 /**
  * Servlet implementation class StudentServler
@@ -30,7 +33,7 @@ public class StudentServler extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		List<Student> studentList = DBUtils.getStudent();
+		List<Student> studentList = StudentDao.getStudent();
 		request.setAttribute("students", studentList);		
 		request.getRequestDispatcher("student.jsp").forward(request, response);
 	}
@@ -52,12 +55,12 @@ public class StudentServler extends HttpServlet {
 		student.setLast_Name(Last_Name);
 		student.setS_Mobile(S_Mobile);
 		if(S_Id != null && Integer.parseInt(S_Id) !=0 ){
-			DBUtils.updateStudent(student);
+			StudentDao.updateStudent(student);
 		}else {
-			DBUtils.saveStudent(student);
+			StudentDao.saveStudent(student);
 		}
 
-		List<Student> studentList = DBUtils.getStudent();
+		List<Student> studentList = StudentDao.getStudent();
 		request.setAttribute("students", studentList);		
 		request.getRequestDispatcher("student.jsp").forward(request, response);
 	}

@@ -1,4 +1,4 @@
-package jobportal;
+package jobportal.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jobportal.dao.UserDao;
+import jobportal.model.User;
 
 /**
  * Servlet implementation class StaffLogin
@@ -34,9 +37,9 @@ public class StaffLogin extends HttpServlet {
 		String password=request.getParameter("password");
 		  
 	  	
-		boolean isAvailable = DBUtils.isUserExist(username,password);
+		boolean isAvailable = UserDao.isUserExist(username,password);
 		if(isAvailable) {
-			 List<User> userList = DBUtils.getUsers();
+			 List<User> userList = UserDao.getUsers();
 				request.setAttribute("users", userList);
 			
 			 request.getRequestDispatcher("staffhome.jsp").forward(request, response);

@@ -1,4 +1,4 @@
-package jobportal;
+package jobportal.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,17 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jobportal.dao.UserDao;
+import jobportal.model.User;
+
 /**
  * Servlet implementation class Search
  */
 @WebServlet("/search")
-public class Search extends HttpServlet {
+public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Search() {
+    public SearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,7 +36,7 @@ public class Search extends HttpServlet {
 		
 	//	boolean isAvailable = DBUtils.isSearchExist(Key);
 	//	if(isAvailable) {
-			List<User> users = DBUtils.SearchKey(Key);
+			List<User> users = UserDao.SearchKey(Key);
 			request.setAttribute("users", users);	
 			request.getRequestDispatcher("home.jsp").forward(request, response);
 	/*	}

@@ -1,4 +1,4 @@
-package jobportal;
+package jobportal.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import jobportal.common.DBUtils;
+import jobportal.dao.UserDao;
+import jobportal.model.User;
 
 /**
  * Servlet implementation class C
@@ -33,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 		 
 		 HttpSession session=request.getSession();
 		 session.removeAttribute("username");
-		 List<User> userList = DBUtils.getUsers();
+		 List<User> userList = UserDao.getUsers();
 			request.setAttribute("users", userList);
 		 request.setAttribute("LogOut", " You Have Successfully Logged Out.");
 		 request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -61,12 +65,12 @@ public class LoginServlet extends HttpServlet {
 		    String password=request.getParameter("password"); 
 		  
 		  	
-			boolean isAvailable = DBUtils.isUserExist(username,password);
+			boolean isAvailable = UserDao.isUserExist(username,password);
 			if(isAvailable) {
 				
 				 HttpSession session=request.getSession();
 				 session.setAttribute("username", username);
-				 List<User> userList = DBUtils.getUsers();
+				 List<User> userList = UserDao.getUsers();
 					request.setAttribute("users", userList);
 				 request.setAttribute("LogIn", " Welcome : " +username);
 				 request.getRequestDispatcher("home.jsp").forward(request, response);

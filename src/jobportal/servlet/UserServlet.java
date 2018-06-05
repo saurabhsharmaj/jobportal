@@ -1,4 +1,4 @@
-package jobportal;
+package jobportal.servlet;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import jobportal.dao.UserDao;
+import jobportal.model.User;
 
 /**
  * Servlet implementation class UserServlet
@@ -34,7 +37,7 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		List<User> userList = DBUtils.getUsers();
+		List<User> userList = UserDao.getUsers();
 		request.setAttribute("users", userList);		
 		request.getRequestDispatcher("home.jsp").forward(request, response);
 	}
@@ -45,12 +48,12 @@ public class UserServlet extends HttpServlet {
 			
 		
 		if(user.getUserId() !=0 ){
-			DBUtils.updateUser(user);
+			UserDao.updateUser(user);
 		}else {
-			DBUtils.saveUser(user);
+			UserDao.saveUser(user);
 		}
 
-		List<User> userList = DBUtils.getUsers();
+		List<User> userList = UserDao.getUsers();
 		request.setAttribute("users", userList);		
 		request.getRequestDispatcher("home.jsp").forward(request, response);
 	}

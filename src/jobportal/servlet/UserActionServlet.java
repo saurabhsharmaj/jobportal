@@ -1,4 +1,4 @@
-package jobportal;
+package jobportal.servlet;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jobportal.dao.UserDao;
+import jobportal.model.User;
 
 /**
  * Servlet implementation class UserActionServlet
@@ -39,18 +42,18 @@ public class UserActionServlet extends HttpServlet {
 		if(action.equals("delete")){
 			request.setAttribute("action", "delete");
 			if(userId != null){
-				DBUtils.deleteUser(Integer.parseInt(userId));
+				UserDao.deleteUser(Integer.parseInt(userId));
 			}
 		}  else if( action.equals("edit")){
 			request.setAttribute("action", "edit");
 			if(userId != null){
-				user = DBUtils.getUser(Integer.parseInt(userId));
+				user = UserDao.getUser(Integer.parseInt(userId));
 			}
 			request.setAttribute("user", user);
 		} else if(action.equals("image")){
 			ServletContext cntx = request.getServletContext();
 		      // Get the absolute path of the image
-			  user = DBUtils.getUser(Integer.parseInt(userId));
+			  user = UserDao.getUser(Integer.parseInt(userId));
 		      String filename = user.getImgPath() == null || user.getImgPath().trim().length() ==0 ? "d:/portaljob/images/default.png":user.getImgPath();
 		      // retrieve mimeType dynamically
 		      String mime = cntx.getMimeType(filename);
@@ -75,7 +78,7 @@ public class UserActionServlet extends HttpServlet {
 		    out.close();
 		    in.close();
 		}
-		List<User> userList = DBUtils.getUsers();
+		List<User> userList = UserDao.getUsers();
 		request.setAttribute("users", userList);		
 		request.getRequestDispatcher("home.jsp").forward(request, response);
 	}
