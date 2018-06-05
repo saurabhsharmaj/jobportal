@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Student Details</title>
 </head>
 <body>
-
+	<h1>Student Portal</h1>
+	hi guys myself pawan,how r u all??
 </body>
 </html>
