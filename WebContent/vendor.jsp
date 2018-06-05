@@ -25,7 +25,7 @@
 								<input  type="text" name="vendorid" class="form-control"  placeholder="enter vendorid">
 							</div>
 							<div class="form-group">
-							   <button type="button" class="btn btn-primary" >Enter</button>
+							   <input type="button" class="btn btn-info" value="Enter" onclick="location.href = '';">
 							</div>
 							
  	  
