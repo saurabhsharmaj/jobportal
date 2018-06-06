@@ -20,7 +20,7 @@
       <a class="nav-link" href="./staff.jsp">Staff</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="./vendor.jsp">vendor</a>
+      <a class="nav-link" href="./Vendor">vendor</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="./Student">Student</a>

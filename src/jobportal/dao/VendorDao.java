@@ -7,44 +7,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jobportal.common.DBUtils;
-import jobportal.model.vendor;
-import jobportal.model.vendor;
+import jobportal.model.Vendor;
+import jobportal.model.Vendor;
+import jobportal.model.Vendor;
 
 public class VendorDao extends DBUtils{
 	
-	public static List<vendor> getvendors() {
-		List<vendor> vendors = new ArrayList<vendor>();
+	public static List<Vendor> getVendors() {
+		List<Vendor> Vendors = new ArrayList<Vendor>();
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("select * from vendors");
+			ResultSet rs = stmt.executeQuery("select * from Vendors");
 			while (rs.next()) {
-				vendor vendor = new vendor(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
-				vendors.add(vendor);
+				Vendor Vendor = new Vendor(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				Vendors.add(Vendor);
 			}
 			con.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return vendors;
+		return Vendors;
 	}
 	
 	public static void main(String[] args) {
-		List<vendor> list =  getvendors();
-		for (vendor vendor : list) {
-			System.out.println(vendor.getvendorname());
+		List<Vendor> list =  getVendors();
+		for (Vendor Vendor : list) {
+			System.out.println(Vendor.getvendorId());
 		}
 	}
 
-	public static void savevendor(vendor vendor) {
+	public static void saveVendor(Vendor Vendor) {
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "INSERT INTO "
-					+ "`jobportal`.`vendors`"
-					+ " (`vendorname`, `password`, `email`)"
-					+ " VALUES ('"+vendor.getvendorname()+"', '"+vendor.getPassword()+"')";
+					+ "`jobportal`.`Vendors`"
+					+ " (`Vendorname`, `password`, `email`)"
+					+ " VALUES ('"+Vendor.getvendorId()+"', '"+Vendor.getPassword()+"')";
 			stmt.executeUpdate(sql);
 			con.close();
 		}catch(Exception ex){
@@ -52,13 +53,13 @@ public class VendorDao extends DBUtils{
 		}
 	}
 	
-	public static void deletevendor(int vendorId) {
+	public static void deleteVendor(int VendorId) {
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "DELETE FROM "
-					+ "`jobportal`.`vendors`"
-					+ " WHERE vendorId="+vendorId;
+					+ "`jobportal`.`Vendors`"
+					+ " WHERE VendorId="+VendorId;
 			stmt.executeUpdate(sql);
 			con.close();
 		}catch(Exception ex){
@@ -66,17 +67,17 @@ public class VendorDao extends DBUtils{
 		}
 	}
 
-	public static vendor getvendor(int vendorId) {
-		vendor vendor = null;
+	public static Vendor getVendor(int VendorId) {
+		Vendor Vendor = null;
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "SELECT * FROM "
-					+ "`jobportal`.`vendors`"
-					+ " WHERE vendorId="+vendorId;
+					+ "`jobportal`.`Vendors`"
+					+ " WHERE VendorId="+VendorId;
 			ResultSet rs=stmt.executeQuery(sql);
 			while (rs.next()) {
-				vendor = new vendor(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				Vendor = new Vendor(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
 				
 			}
 			con.close();
@@ -84,19 +85,19 @@ public class VendorDao extends DBUtils{
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-		return vendor;
+		return Vendor;
 	}
 
-	public static void updatevendor(vendor vendor) {
+	public static void updateVendor(Vendor Vendor) {
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "UPDATE "
-					+ "`jobportal`.`vendors`"
-					+ " SET `vendorname` ='"+vendor.getvendorname()+"',"
-							+ " `password`='"+vendor.getPassword()+"',"
+					+ "`jobportal`.`Vendors`"
+					+ " SET `Vendorname` ='"+Vendor.getvendorId()+"',"
+							+ " `password`='"+Vendor.getPassword()+"',"
 							
-						+ " WHERE `vendorId`="+vendor.getvendorId();
+						+ " WHERE `VendorId`="+Vendor.getvendorId();
 			System.out.println(sql);
 			stmt.executeUpdate(sql);
 		}catch(Exception ex){
@@ -105,13 +106,13 @@ public class VendorDao extends DBUtils{
 		
 	}
 	
-	public static boolean isvendorExist(String vendorname, String password) {
+	public static boolean isVendorExist(String Vendorname, String password) {
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "SELECT * FROM "
-					+ "`jobportal`.`vendors`"
-					+ " WHERE vendorname='"+vendorname+"' and password='"+password+"'";
+					+ "`jobportal`.`Vendors`"
+					+ " WHERE Vendorname='"+Vendorname+"' and password='"+password+"'";
 			System.out.println(sql);
 			ResultSet rs=stmt.executeQuery(sql);
 			while (rs.next()) {
@@ -125,25 +126,25 @@ public class VendorDao extends DBUtils{
 		return false;
 	}
 	
-	public static List<vendor> SearchKey(String Key) {
-		List<vendor> vendors = new ArrayList<vendor>();
+	public static List<Vendor> SearchKey(String Key) {
+		List<Vendor> Vendors = new ArrayList<Vendor>();
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "SELECT * FROM "
-					+ "`jobportal`.`vendors`"
-					+ " WHERE vendorname LIKE '%"+Key+"%' order by vendorname";
+					+ "`jobportal`.`Vendors`"
+					+ " WHERE Vendorname LIKE '%"+Key+"%' order by Vendorname";
 			System.out.println(sql);
 			ResultSet rs=stmt.executeQuery(sql);
 			while (rs.next()) {
-				vendor vendor = new vendor(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
-				vendors.add(vendor);
+				Vendor Vendor = new Vendor(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				Vendors.add(Vendor);
 				
 			}
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-		return vendors;
+		return Vendors;
 	}
 }

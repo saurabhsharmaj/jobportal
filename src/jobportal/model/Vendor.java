@@ -1,16 +1,16 @@
 package jobportal.model;
 
-public class vendor {
+public class Vendor {
 
 	int VendorId;
 	String Vendorname="";
 	String password="";
 	
-public vendor(){
+public Vendor(){
 		
 	}
 	
-	public vendor(int Id , String Vendorname,String password, String imgPath){
+	public Vendor(int Id , String Vendorname,String password, String imgPath){
 		this.VendorId=Id;
 		this.Vendorname=Vendorname;
 		this.password=password;

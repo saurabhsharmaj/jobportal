@@ -18,3 +18,6 @@ CHANGE COLUMN `userId` `userId` INT(11) NOT NULL AUTO_INCREMENT COMMENT '' ;
 
 ALTER TABLE `jobportal`.`users` 
 ADD COLUMN `imgpath` VARCHAR(100) NULL COMMENT '' AFTER `email`;
+
+ALTER TABLE `jobportal`.`students` 
+ADD COLUMN `S_MOBILE` VARCHAR(100) NULL COMMENT '' AFTER `email`;

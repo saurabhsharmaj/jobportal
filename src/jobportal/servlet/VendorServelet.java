@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jobportal.dao.VendorDao;
-import jobportal.model.vendor;
+import jobportal.model.Vendor;
 
 /**
  * Servlet implementation class VendorServelet
@@ -32,7 +32,7 @@ public class VendorServelet extends HttpServlet {
 	 */
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		List<vendor> vendorList = VendorDao.getvendors();
+		List<Vendor> vendorList = VendorDao.getVendors();
 		request.setAttribute("vendors", vendorList);		
 		request.getRequestDispatcher("vendor.jsp").forward(request, response);
 	}
@@ -42,7 +42,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	
 		String vendorId= request.getParameter("vendorId");	
 
-		vendor vendor = new vendor();
+		Vendor vendor = new Vendor();
 		if(vendorId != null){
 			vendor.setvendorId(Integer.parseInt(vendorId));
 		}
@@ -50,13 +50,13 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	
 	
 		if(vendorId != null && Integer.parseInt(vendorId) !=0 ){
-			VendorDao.updatevendor(vendor);
+			VendorDao.updateVendor(vendor);
 		}else {
-			VendorDao.savevendor(vendor);
+			VendorDao.saveVendor(vendor);
 		}
 
-		List<vendor> vendorList = VendorDao.getvendors();
+		List<Vendor> vendorList = VendorDao.getVendors();
 		request.setAttribute("vendors", vendorList);		
-		response.sendRedirect("./vendor");
+		response.sendRedirect("./Vendor");
 	}
 }
