@@ -16,13 +16,13 @@ import jobportal.model.Student;
  * Servlet implementation class StudentServler
  */
 @WebServlet("/Student")
-public class StudentServler extends HttpServlet {
+public class StudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StudentServler() {
+    public StudentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
