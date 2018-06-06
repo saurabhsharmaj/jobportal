@@ -41,8 +41,8 @@ public class UserActionServlet extends HttpServlet {
 			if(userId != null){
 				DBUtils.deleteUser(Integer.parseInt(userId));
 			}
-		} else if( action.equals("edit")){
-			request.setAttribute("action", "edit");	
+		}  else if( action.equals("edit")){
+			request.setAttribute("action", "edit");
 			if(userId != null){
 				user = DBUtils.getUser(Integer.parseInt(userId));
 			}
