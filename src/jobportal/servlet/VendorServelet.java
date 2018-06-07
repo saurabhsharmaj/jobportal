@@ -33,6 +33,7 @@ public class VendorServelet extends HttpServlet {
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		List<Vendor> vendorList = VendorDao.getVendors();
+		System.out.println(vendorList.size());
 		request.setAttribute("vendors", vendorList);		
 		request.getRequestDispatcher("vendor.jsp").forward(request, response);
 	}

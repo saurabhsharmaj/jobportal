@@ -8,8 +8,6 @@ import java.util.List;
 
 import jobportal.common.DBUtils;
 import jobportal.model.Vendor;
-import jobportal.model.Vendor;
-import jobportal.model.Vendor;
 
 public class VendorDao extends DBUtils{
 	
