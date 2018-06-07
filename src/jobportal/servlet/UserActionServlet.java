@@ -47,7 +47,7 @@ public class UserActionServlet extends HttpServlet {
 		}  else if( action.equals("edit")){
 			request.setAttribute("action", "edit");
 			if(userId != null){
-				user = UserDao.getUser(Integer.parseInt(userId));
+				user =(User) UserDao.getUser(Integer.parseInt(userId));
 			}
 			request.setAttribute("user", user);
 		} else if(action.equals("image")){

@@ -29,7 +29,7 @@ public class StudentDao extends DBUtils {
 	}
 	
 
-	public static List<Student> getStudent() {
+	public static List<Student> getStudent(int S_Id) {
 		List<Student> students = new ArrayList<Student>();
 		try {
 			Connection con = getConnection();
@@ -53,7 +53,7 @@ public class StudentDao extends DBUtils {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "DELETE FROM "
-					+ "`jobportal`.`studentss`"
+					+ "`jobportal`.`students`"
 					+ " WHERE S_Id="+S_Id;
 			stmt.executeUpdate(sql);
 			con.close();
@@ -62,12 +62,12 @@ public class StudentDao extends DBUtils {
 		}
 	}
 
-	public static void updateStudent(Student student) {
+	public static Student updateStudent(Student student) {
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "UPDATE "
-					+ "`jobportal`.`users`"
+					+ "`jobportal`.`students`"
 					+ " SET `First_Name` ='"+student.getFirst_Name()+"',"
 							+ " `Last_Name`='"+student.getLast_Name()+"',"
 							+ " `S_Mobile`='"+student.getS_Mobile()+"'"
@@ -77,6 +77,7 @@ public class StudentDao extends DBUtils {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+		return student;
 		
 	}
 	
@@ -85,7 +86,7 @@ public class StudentDao extends DBUtils {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "SELECT * FROM "
-					+ "`jobportal`.`users`"
+					+ "`jobportal`.`studentss`"
 					+ " WHERE username='"+username+"' and password='"+password+"'";
 			System.out.println(sql);
 			ResultSet rs=stmt.executeQuery(sql);
@@ -107,7 +108,7 @@ public class StudentDao extends DBUtils {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "SELECT * FROM "
-					+ "`jobportal`.`users`"
+					+ "`jobportal`.`students`"
 					+ " WHERE First_Name LIKE '%"+Key+"%' order by username";
 			System.out.println(sql);
 			ResultSet rs=stmt.executeQuery(sql);
@@ -131,7 +132,8 @@ public class StudentDao extends DBUtils {
 
 			ResultSet rs = stmt.executeQuery("select * from students");
 			while (rs.next()) {
-				Student student = new Student(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				Student student = new Student(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString("S_MO"
+						+ "BILE"));
 				students.add(student);
 			}
 			con.close();

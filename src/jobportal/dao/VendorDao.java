@@ -10,7 +10,7 @@ import jobportal.common.DBUtils;
 import jobportal.model.vendor;
 import jobportal.model.vendor;
 
-public class vendorDoa extends DBUtils{
+public class VendorDao extends DBUtils{
 	
 	public static List<vendor> getvendors() {
 		List<vendor> vendors = new ArrayList<vendor>();

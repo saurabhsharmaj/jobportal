@@ -5,7 +5,7 @@ public class Student {
 	int S_Id;
 	String First_Name="";
 	String Last_Name="";
-	String S_Mobile="";
+	String S_Mobile;
 
 	public Student(){
 		
@@ -19,6 +19,8 @@ public class Student {
 
 	}
 	
+	
+
 	public  int getS_Id() {
 		return S_Id;
 	}
