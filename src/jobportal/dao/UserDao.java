@@ -1,6 +1,7 @@
 package jobportal.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -29,23 +30,16 @@ public class UserDao extends DBUtils {
 		return users;
 	}
 	
-	public static void main(String[] args) {
-		List<User> list =  getUsers();
-		for (User user : list) {
-			System.out.println(user.getUsername());
-		}
-	}
-
 	public static void saveUser(User user) {
 		try {
 			Connection con = getConnection();
-			Statement stmt = con.createStatement();
-			String sql= "INSERT INTO "
-					+ "`jobportal`.`users`"
-					+ " (`username`, `password`, `email`)"
-					+ " VALUES ('"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getEmail()+"')";
-			stmt.executeUpdate(sql);
-			con.close();
+			String sql = "INSERT INTO users (username,password,email) VALUES(?,?,?)";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getPassword());
+			stmt.setString(3, user.getEmail());
+			stmt.executeUpdate();
+			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -53,27 +47,27 @@ public class UserDao extends DBUtils {
 	
 	public static void deleteUser(int userId) {
 		try {
-			Connection con = getConnection();
-			Statement stmt = con.createStatement();
-			String sql= "DELETE FROM "
-					+ "`jobportal`.`users`"
-					+ " WHERE userId="+userId;
-			stmt.executeUpdate(sql);
+			Connection con = getConnection();			
+			String sql= "DELETE FROM users WHERE userId = ?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			stmt.executeUpdate();
 			con.close();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-
+public static void main(String[] args) {
+	System.out.println(getUser(2));
+}
 	public static User getUser(int userId) {
+		String sql= "SELECT * FROM USERS WHERE USERID = ?";
 		User user = null;
 		try {
-			Connection con = getConnection();
-			Statement stmt = con.createStatement();
-			String sql= "SELECT * FROM "
-					+ "`jobportal`.`users`"
-					+ " WHERE userId="+userId;
-			ResultSet rs=stmt.executeQuery(sql);
+			Connection con = getConnection();			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			ResultSet rs=stmt.executeQuery();
 			while (rs.next()) {
 				user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 				
@@ -88,16 +82,15 @@ public class UserDao extends DBUtils {
 
 	public static void updateUser(User user) {
 		try {
-			Connection con = getConnection();
-			Statement stmt = con.createStatement();
-			String sql= "UPDATE "
-					+ "`jobportal`.`users`"
-					+ " SET `username` ='"+user.getUsername()+"',"
-							+ " `password`='"+user.getPassword()+"',"
-							+ " `email`='"+user.getEmail()+"'"
-						+ " WHERE `userId`="+user.getUserId();
+			Connection con = getConnection();			
+			String sql= "UPDATE  users SET username = ?, password = ?, email = ? WHERE userId = ?";
 			System.out.println(sql);
-			stmt.executeUpdate(sql);
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getPassword());
+			stmt.setString(3, user.getEmail());
+			stmt.setInt(4, user.getUserId());
+			stmt.executeUpdate();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -106,13 +99,12 @@ public class UserDao extends DBUtils {
 	
 	public static boolean isUserExist(String username, String password) {
 		try {
-			Connection con = getConnection();
-			Statement stmt = con.createStatement();
-			String sql= "SELECT * FROM "
-					+ "`jobportal`.`users`"
-					+ " WHERE username='"+username+"' and password='"+password+"'";
-			System.out.println(sql);
-			ResultSet rs=stmt.executeQuery(sql);
+			Connection con = getConnection();			
+			String sql= "SELECT * FROM  users WHERE username = ? and password = ? ";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, username);
+			stmt.setString(2, password);
+			ResultSet rs=stmt.executeQuery();
 			while (rs.next()) {
 				return true;
 				
@@ -124,16 +116,15 @@ public class UserDao extends DBUtils {
 		return false;
 	}
 	
-	public static List<User> SearchKey(String Key) {
+	public static List<User> SearchKey(String key) {
 		List<User> users = new ArrayList<User>();
 		try {
-			Connection con = getConnection();
-			Statement stmt = con.createStatement();
-			String sql= "SELECT * FROM "
-					+ "`jobportal`.`users`"
-					+ " WHERE username LIKE '%"+Key+"%' order by username";
+			Connection con = getConnection();			
+			String sql= "SELECT * FROM  users WHERE username LIKE '%?%' order by username";
 			System.out.println(sql);
-			ResultSet rs=stmt.executeQuery(sql);
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, key);
+			ResultSet rs=stmt.executeQuery();
 			while (rs.next()) {
 				User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 				users.add(user);

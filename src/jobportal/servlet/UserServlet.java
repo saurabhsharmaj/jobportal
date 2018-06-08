@@ -102,8 +102,21 @@ public class UserServlet extends HttpServlet {
             }          
          
         }else{
-            request.setAttribute("message",
-                                 "Sorry this Servlet only handles file upload request");
+            if(request.getParameter("userId") != null ){
+            	user.setUserId(Integer.parseInt(request.getParameter("userId")));
+            } 
+            
+            if(request.getParameter("username") != null ){
+            	user.setUsername(request.getParameter("username"));
+            } 
+            
+            if(request.getParameter("password") != null ){
+            	user.setPassword(request.getParameter("password"));
+            } 
+            
+            if(request.getParameter("email") != null ){
+            	user.setEmail(request.getParameter("email"));
+            }
         }
 		return user;
 	}
