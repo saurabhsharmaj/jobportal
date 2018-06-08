@@ -32,7 +32,7 @@
 				<div class="col-lg-2">Branch :</div>
 				<div class="col-lg-5">
 					<select>
-						<option>Computer Science</option>
+						<option>Computer Science And Engineering</option>
 						<option>Electrical Engineering</option>
 						<option>Electronics Engineering</option>
 						<option>Civil Engineering</option>
@@ -58,7 +58,7 @@
 			<div class="table-responsive col-lg-12">
 			<table class="table-striped">
 			<tr>
-			<th>Studednt Id</th>
+			<th>Student Id</th>
 			<th>First Name</th>
 			<th>Last Name</th>
 			<th>Student Contact</th>
@@ -88,6 +88,6 @@
 			</table>
 		</div>
 	</div>
-	</div>
+	
 </body>
 </html>
