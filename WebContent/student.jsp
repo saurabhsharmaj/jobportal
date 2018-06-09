@@ -36,12 +36,21 @@
 			<div class="row form-group">
 				<div class="col-lg-2">Branch :</div>
 				<div class="col-lg-5">
+<<<<<<< HEAD
 					<select name="SBranch">
 						<option value="<%=student.getSBranch() %>">Computer Science</option>
 						<option value="<%=student.getSBranch() %>">Electrical Engineering</option>
 						<option value="<%=student.getSBranch() %>">Electronics Engineering</option>
 						<option value="<%=student.getSBranch() %>">Civil Engineering</option>
 						<option value="<%=student.getSBranch() %>">Mechanical Engineering</option>
+=======
+					<select>
+						<option>Computer Science And Engineering</option>
+						<option>Electrical Engineering</option>
+						<option>Electronics Engineering</option>
+						<option>Civil Engineering</option>
+						<option>Mechanical Engineering</option>
+>>>>>>> branch 'master' of https://github.com/saurabhsharmaj/jobportal.git
 					</select>
 				</div>
 			</div>
@@ -81,7 +90,7 @@
 			<div class="table-responsive col-lg-12">
 			<table class="table-striped">
 			<tr>
-			<th>Studednt Id</th>
+			<th>Student Id</th>
 			<th>First Name</th>
 			<th>Last Name</th>
 			<th>Branch</th>
@@ -154,6 +163,11 @@
 				}%>
 			</table>
 		</div>
+<<<<<<< HEAD
 	</div>
+=======
+	</div>
+	
+>>>>>>> branch 'master' of https://github.com/saurabhsharmaj/jobportal.git
 </body>
 </html>
