@@ -2,7 +2,7 @@ package jobportal.model;
 
 public class Vendor {
 
-	int VendorId;
+	 int Vendorid;
 	String Vendorname="";
 	String password="";
 	
@@ -10,8 +10,8 @@ public Vendor(){
 		
 	}
 	
-	public Vendor(int Id , String Vendorname,String password, String imgPath){
-		this.VendorId=Id;
+	public Vendor(int Vendorid , String Vendorname,String password, String imgPath){
+		this.Vendorid=Vendorid;
 		this.Vendorname=Vendorname;
 		this.password=password;
 		
@@ -19,20 +19,20 @@ public Vendor(){
 
 	
 
-	public int getvendorId() {
-		return VendorId;
+	public  int getVendorid() {
+		return Vendorid;
 	}
 
-	public void setvendorId(int vendorId) {
-		VendorId = vendorId;
+	public void setVendorid(int Vendorid) {
+		Vendorid = Vendorid;
 	}
 
-	public String getvendorname() {
+	public String getVendorname() {
 		return Vendorname;
 	}
 
-	public void setvendorname(String vendorname) {
-		Vendorname = vendorname;
+	public void setVendorname(String Vendorname) {
+		Vendorname = Vendorname;
 	}
 
 	public String getPassword() {

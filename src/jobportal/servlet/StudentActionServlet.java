@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jobportal.dao.StudentDao;
-import jobportal.dao.UserDao;
 import jobportal.model.Student;
-import jobportal.model.User;
 
 /**
  * Servlet implementation class StudentActionServlet
@@ -35,18 +33,18 @@ public class StudentActionServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
-		String S_Id =request.getParameter("S_Id");
+		String SId =request.getParameter("SId");
 		Student student = new Student();
 		
 		if(action.equals("delete")){
 			request.setAttribute("action", "delete");
-			if(S_Id != null){
-				StudentDao.deleteStudent(Integer.parseInt(S_Id));
+			if(SId != null){
+				StudentDao.deleteStudent(Integer.parseInt(SId));
 			}
 		}  else if( action.equals("edit")){
 			request.setAttribute("action", "edit");
-			if(S_Id != null){
-				student  =(Student) StudentDao.getStudent(Integer.parseInt(S_Id));
+			if(SId != null){
+				student  = StudentDao.getStudent(Integer.parseInt(SId));
 			}
 			
 			request.setAttribute("student", student);

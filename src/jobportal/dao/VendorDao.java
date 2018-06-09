@@ -32,7 +32,7 @@ public class VendorDao extends DBUtils{
 	public static void main(String[] args) {
 		List<Vendor> list =  getVendors();
 		for (Vendor Vendor : list) {
-			System.out.println(Vendor.getvendorId());
+			System.out.println(Vendor.getVendorid());
 		}
 	}
 
@@ -42,8 +42,8 @@ public class VendorDao extends DBUtils{
 			Statement stmt = con.createStatement();
 			String sql= "INSERT INTO "
 					+ "`jobportal`.`Vendors`"
-					+ " (`Vendorname`, `password`, `email`)"
-					+ " VALUES ('"+Vendor.getvendorId()+"', '"+Vendor.getPassword()+"')";
+					+ " (`Vendorid`, `Vendorname`)"
+					+ " VALUES ('"+Vendor.getVendorid()+"', '"+Vendor.getVendorname()+"')";
 			stmt.executeUpdate(sql);
 			con.close();
 		}catch(Exception ex){
@@ -51,13 +51,13 @@ public class VendorDao extends DBUtils{
 		}
 	}
 	
-	public static void deleteVendor(int VendorId) {
+	public static void deleteVendor(int Vendorid) {
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "DELETE FROM "
 					+ "`jobportal`.`Vendors`"
-					+ " WHERE VendorId="+VendorId;
+					+ " WHERE VendorId="+Vendorid;
 			stmt.executeUpdate(sql);
 			con.close();
 		}catch(Exception ex){
@@ -65,14 +65,14 @@ public class VendorDao extends DBUtils{
 		}
 	}
 
-	public static Vendor getVendor(int VendorId) {
+	public static Vendor getVendor(int Vendorid) {
 		Vendor Vendor = null;
 		try {
 			Connection con = getConnection();
 			Statement stmt = con.createStatement();
 			String sql= "SELECT * FROM "
 					+ "`jobportal`.`Vendors`"
-					+ " WHERE VendorId="+VendorId;
+					+ " WHERE Vendorid="+Vendorid;
 			ResultSet rs=stmt.executeQuery(sql);
 			while (rs.next()) {
 				Vendor = new Vendor(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
@@ -92,10 +92,10 @@ public class VendorDao extends DBUtils{
 			Statement stmt = con.createStatement();
 			String sql= "UPDATE "
 					+ "`jobportal`.`Vendors`"
-					+ " SET `Vendorname` ='"+Vendor.getvendorId()+"',"
-							+ " `password`='"+Vendor.getPassword()+"',"
+					+ " SET `Vendorname` ='"+Vendor.getVendorname()+"',"
 							
-						+ " WHERE `VendorId`="+Vendor.getvendorId();
+							
+						+ " WHERE `Vendorid`="+Vendor.getVendorid();
 			System.out.println(sql);
 			stmt.executeUpdate(sql);
 		}catch(Exception ex){

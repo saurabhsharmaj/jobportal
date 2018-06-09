@@ -35,24 +35,24 @@ public class VendorActionServelet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
-		String vendorId =request.getParameter("vendorid");
+		String Vendorid =request.getParameter("Vendorid");
 		Vendor vendor = new Vendor();
 		
 		if(action.equals("delete")){
 			request.setAttribute("action", "delete");
-			if(vendorId != null){
-				VendorDao.deleteVendor(Integer.parseInt(vendorId));
+			if(Vendorid != null){
+				VendorDao.deleteVendor(Integer.parseInt(Vendorid));
 			}
 		}  else if( action.equals("edit")){
 			request.setAttribute("action", "edit");
-			if(vendorId != null){
-				vendor  =(Vendor) VendorDao.getVendor(Integer.parseInt(vendorId));
+			if(Vendorid != null){
+				vendor  =(Vendor) VendorDao.getVendor(Integer.parseInt(Vendorid));
 			}
 			
 			request.setAttribute("vendor", vendor);
 		}
 		List<Vendor> vendorList = VendorDao.getVendors();
-		request.setAttribute("vendor", vendorList);		
+		request.setAttribute("vendors", vendorList);		
 		request.getRequestDispatcher("vendor.jsp").forward(request, response);
 	}
 

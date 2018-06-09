@@ -18,6 +18,7 @@ import jobportal.model.Vendor;
 @WebServlet("/Vendor")
 public class VendorServelet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -41,16 +42,18 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		String vendorId= request.getParameter("vendorId");	
+	/*	String Vendorid= request.getParameter("Vendorid");
+		String Vendorname = request.getParameter("Vendorname");	*/
 
 		Vendor vendor = new Vendor();
-		if(vendorId != null){
-			vendor.setvendorId(Integer.parseInt(vendorId));
+		/*	if(Vendor.getVendorid != null){
+			vendor.setVendorid(Integer.parseInt(Vendorid));
 		}
-		vendor.setvendorname(vendor.getvendorname());
+		vendor.setVendorname(Vendorname);*/
+		
 	
 	
-		if(vendorId != null && Integer.parseInt(vendorId) !=0 ){
+		if(vendor.getVendorid() != 0 ){
 			VendorDao.updateVendor(vendor);
 		}else {
 			VendorDao.saveVendor(vendor);
