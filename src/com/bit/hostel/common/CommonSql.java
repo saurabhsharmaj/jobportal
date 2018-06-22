@@ -25,10 +25,11 @@ public class CommonSql {
 	
 	//USER SQL
 	public static final String USER_SQL = "SELECT * FROM USERS";
-	public static final String USER_ID_SQL = "";
-	public static final String USER_DELETE_SQL = null;
-	public static final String USER_SAVE_SQL = null;
-	public static final String USER_UPDATE_SQL = null;
+	public static final String USER_ID_SQL = "SELECT * FORM USERS WHERE USERID=?";
+	public static final String USER_USERNAME_PASSWORD_SQL = "SELECT * FROM USERS WHERE USERNAME=? AND PASSWORD=? AND STATUS=?";
+	public static final String USER_DELETE_SQL = "DELETE FROM USERS WHERE USERID=?";
+	public static final String USER_SAVE_SQL = "INSERT INTO USERS";
+	public static final String USER_UPDATE_SQL = "UPDATE USERS SET WHERE USERID=?";
 
 	//VENDOR SQL
 	public static final String VENDOR_SQL = "SELECT * FROM VENDORS";

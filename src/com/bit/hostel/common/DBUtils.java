@@ -9,9 +9,16 @@ public class DBUtils {
 	static String user = "root";
 	static String password = "root";
 
+	static{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+	}
 	public static Connection getConnection(){
 		try{
-		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = DriverManager.getConnection(url, user, password);
 		return con;
 		}catch(Exception ex){
