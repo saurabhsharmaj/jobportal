@@ -6,6 +6,7 @@ public class Leave {
 
 	Integer id;
 	User user;
+	String branch;
 	String purpose;
 	String remark;
 	Date intime;
@@ -14,6 +15,8 @@ public class Leave {
 	String status;
 	Date updatedOn;
 	String updatedBy;
+	Integer isGatePassGenerate;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -25,6 +28,13 @@ public class Leave {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public String getBranch() {
+		return branch;
+	}
+	public void setBranch(String branch) {
+		this.branch = branch;
 	}
 	public String getPurpose() {
 		return purpose;
@@ -73,7 +83,12 @@ public class Leave {
 	}
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+	public Integer getIsGatePassGenerate() {
+		return isGatePassGenerate;
+	}
+	public void setIsGatePassGenerate(Integer isGatePassGenerate) {
+		this.isGatePassGenerate = isGatePassGenerate;
 	}	
-	
 	
 }

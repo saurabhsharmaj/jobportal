@@ -79,6 +79,8 @@ public class AdminServlet extends HttpServlet {
 			request.setAttribute("leaves",leaves);
 			request.setAttribute("page", "student_home.jsp");
 		} else if(user.getRole().equals(UserRole.GARD_ROLE)){
+			List<Leave> leaves = staffDao.getLeaveDetails();
+			request.setAttribute("leaves",leaves);
 			request.setAttribute("page", "gard_home.jsp");
 		}
 		return true;

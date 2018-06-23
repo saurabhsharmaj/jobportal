@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bit.hostel.common.CommonSql;
+import com.bit.hostel.common.Constants;
 import com.bit.hostel.model.Leave;
 import com.bit.hostel.model.Staff;
 import com.bit.hostel.model.User;
@@ -166,7 +167,7 @@ public class StaffDaoImpl extends CommonDao<Staff> {
 		Connection con = getConnection();
 		try {
 			PreparedStatement stmt = con.prepareStatement(CommonSql.STAFF_HOD_LEAVE_DETAILD_SQL);
-			stmt.setInt(1, u.getUserId());
+			stmt.setInt(1, staff.getStaffId());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Leave leave = new Leave();
@@ -187,7 +188,9 @@ public class StaffDaoImpl extends CommonDao<Staff> {
 				leave.setStatus(rs.getString("confirm"));
 				leave.setUpdatedBy(rs.getString("updatedby"));
 				leave.setUpdatedOn(rs.getTimestamp("updatedon"));
-
+				leave.setIsGatePassGenerate(rs.getInt("isgatepassgen"));
+				leave.setBranch(rs.getString("SBranch"));
+				
 				User approvedBy = new User();
 				approvedBy.setUserId(rs.getInt("aid"));
 				approvedBy.setUsername(rs.getString("aname"));
@@ -212,5 +215,62 @@ public class StaffDaoImpl extends CommonDao<Staff> {
 		}
 		return leaves;
 
+	}
+
+	public List<Leave> getLeaveDetails() {
+
+
+		List<Leave> leaves = new ArrayList<Leave>();
+		Connection con = getConnection();
+		try {
+			PreparedStatement stmt = con.prepareStatement(CommonSql.STAFF_HOD_LEAVE_DETAILD_BY_STATUS_SQL);
+			stmt.setString(1, Constants.ALLOW_LEAVE);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Leave leave = new Leave();
+				leave.setId(rs.getInt("id"));
+
+				User user = new User();
+				user.setUserId(rs.getInt("sid"));
+				user.setUsername(rs.getString("sname"));
+				user.setImgpath(rs.getString("simgpath"));
+				user.setRole(rs.getString("srole"));
+				user.setStatus(rs.getInt("sstatus"));
+				leave.setUser(user);
+
+				leave.setPurpose(rs.getString("purpose"));
+				leave.setRemark(rs.getString("remark"));
+				leave.setIntime(rs.getTimestamp("intime"));
+				leave.setOutTime(rs.getTimestamp("outtime"));
+				leave.setStatus(rs.getString("confirm"));
+				leave.setUpdatedBy(rs.getString("updatedby"));
+				leave.setUpdatedOn(rs.getTimestamp("updatedon"));
+				leave.setIsGatePassGenerate(rs.getInt("isgatepassgen"));
+				leave.setBranch(rs.getString("SBranch"));
+				User approvedBy = new User();
+				approvedBy.setUserId(rs.getInt("aid"));
+				approvedBy.setUsername(rs.getString("aname"));
+				approvedBy.setImgpath(rs.getString("aimgpath"));
+				approvedBy.setRole(rs.getString("arole"));
+				approvedBy.setStatus(rs.getInt("astatus"));
+
+				leave.setApprovedBy(approvedBy);
+				leaves.add(leave);
+
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return leaves;
+
+	
 	}
 }

@@ -180,6 +180,7 @@ public class StudentDaoImpl extends CommonDao<Student>{
 				leave.setStatus(rs.getString("confirm"));
 				leave.setUpdatedBy(rs.getString("updatedby"));
 				leave.setUpdatedOn(rs.getTimestamp("updatedon"));
+				leave.setIsGatePassGenerate(rs.getInt("isgatepassgen"));
 				
 				User approvedBy = new User();
 				approvedBy.setUserId(rs.getInt("aid"));
