@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bit.hostel.common.CommonSql;
+import com.bit.hostel.model.Leave;
 import com.bit.hostel.model.Staff;
+import com.bit.hostel.model.User;
 
-public class StaffDaoImpl extends CommonDao<Staff>{
+public class StaffDaoImpl extends CommonDao<Staff> {
 
 	@Override
 	public List<Staff> get() {
-		List<Staff> list= new ArrayList<Staff>();
+		List<Staff> list = new ArrayList<Staff>();
 		Connection con = getConnection();
-		try{
+		try {
 			PreparedStatement stmt = con.prepareStatement(CommonSql.STAFF_SQL);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -31,15 +33,15 @@ public class StaffDaoImpl extends CommonDao<Staff>{
 				staff.setStafftype(rs.getString(7));
 				staff.setDateofbirth(rs.getDate(8));
 				staff.setUpdatedOn(rs.getDate(9));
-				staff.setUpdatedby(rs.getString(10));				
+				staff.setUpdatedby(rs.getString(10));
 				staff.setStatusenum(rs.getString(11));
 				list.add(staff);
 			}
-			
-		}catch(Exception ex){
-			ex.printStackTrace();	
-		}finally{
-			if(con!=null)
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (con != null)
 				try {
 					con.close();
 				} catch (SQLException e) {
@@ -53,7 +55,7 @@ public class StaffDaoImpl extends CommonDao<Staff>{
 	public Staff get(int id) {
 		Staff staff = null;
 		Connection con = getConnection();
-		try{
+		try {
 			PreparedStatement stmt = con.prepareStatement(CommonSql.STAFF_ID_SQL);
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
@@ -68,14 +70,14 @@ public class StaffDaoImpl extends CommonDao<Staff>{
 				staff.setStafftype(rs.getString(7));
 				staff.setDateofbirth(rs.getDate(8));
 				staff.setUpdatedOn(rs.getDate(9));
-				staff.setUpdatedby(rs.getString(10));				
+				staff.setUpdatedby(rs.getString(10));
 				staff.setStatusenum(rs.getString(11));
 			}
-			
-		}catch(Exception ex){
-			ex.printStackTrace();	
-		}finally{
-			if(con!=null)
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (con != null)
 				try {
 					con.close();
 				} catch (SQLException e) {
@@ -89,9 +91,9 @@ public class StaffDaoImpl extends CommonDao<Staff>{
 	public void saveOrUpdate(Staff staff) {
 
 		Connection con = getConnection();
-		try{
+		try {
 			PreparedStatement stmt = null;
-			if(staff.getStaffId() == null || staff.getStaffId() == 0){
+			if (staff.getStaffId() == null || staff.getStaffId() == 0) {
 				stmt = con.prepareStatement(CommonSql.STAFF_SAVE_SQL);
 				stmt.setString(1, staff.getStaffname());
 				stmt.setString(2, staff.getContact());
@@ -115,34 +117,34 @@ public class StaffDaoImpl extends CommonDao<Staff>{
 				stmt.setString(9, staff.getStatusenum());
 				stmt.setInt(10, staff.getStaffId());
 			}
-			
+
 			stmt.executeUpdate();
-			
-		}catch(Exception ex){
-			ex.printStackTrace();	
-		}finally{
-			if(con!=null)
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (con != null)
 				try {
 					con.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 		}
-		
+
 	}
 
 	@Override
 	public int delete(int id) {
 		Connection con = getConnection();
-		try{
+		try {
 			PreparedStatement stmt = con.prepareStatement(CommonSql.STAFF_DELETE_SQL);
 			stmt.setInt(1, id);
 			return stmt.executeUpdate();
-			
-		}catch(Exception ex){
-			ex.printStackTrace();	
-		}finally{
-			if(con!=null)
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (con != null)
 				try {
 					con.close();
 				} catch (SQLException e) {
@@ -153,7 +155,62 @@ public class StaffDaoImpl extends CommonDao<Staff>{
 	}
 
 	@Override
-	public int delete(Staff obj) {
+	public int delete(Staff s) {
 		// TODO Auto-generated method stub
 		return 0;
-	}}
+	}
+
+	public List<Leave> getLeaveDetails(Staff staff) {
+
+		List<Leave> leaves = new ArrayList<Leave>();
+		Connection con = getConnection();
+		try {
+			PreparedStatement stmt = con.prepareStatement(CommonSql.STAFF_HOD_LEAVE_DETAILD_SQL);
+			stmt.setInt(1, u.getUserId());
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Leave leave = new Leave();
+				leave.setId(rs.getInt("id"));
+
+				User user = new User();
+				user.setUserId(rs.getInt("sid"));
+				user.setUsername(rs.getString("sname"));
+				user.setImgpath(rs.getString("simgpath"));
+				user.setRole(rs.getString("srole"));
+				user.setStatus(rs.getInt("sstatus"));
+				leave.setUser(user);
+
+				leave.setPurpose(rs.getString("purpose"));
+				leave.setRemark(rs.getString("remark"));
+				leave.setIntime(rs.getTimestamp("intime"));
+				leave.setOutTime(rs.getTimestamp("outtime"));
+				leave.setStatus(rs.getString("confirm"));
+				leave.setUpdatedBy(rs.getString("updatedby"));
+				leave.setUpdatedOn(rs.getTimestamp("updatedon"));
+
+				User approvedBy = new User();
+				approvedBy.setUserId(rs.getInt("aid"));
+				approvedBy.setUsername(rs.getString("aname"));
+				approvedBy.setImgpath(rs.getString("aimgpath"));
+				approvedBy.setRole(rs.getString("arole"));
+				approvedBy.setStatus(rs.getInt("astatus"));
+
+				leave.setApprovedBy(approvedBy);
+				leaves.add(leave);
+
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return leaves;
+
+	}
+}

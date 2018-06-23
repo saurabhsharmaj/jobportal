@@ -14,6 +14,7 @@ public class CommonSql {
 			+ " SET "
 			+ "`staffname`=?, `contact`=?, `email`=?, `gender`=?, `department`=?, `stafftype`=?, `dateofbirth`=?, `updatedby`=?, `statusenum`=? WHERE `staffid`=?";
 
+	public static final String STAFF_HOD_LEAVE_DETAILD_SQL="SELECT a.*,s.SBranch,u.userid as sid, u.username as sname,u.imgpath as simgpath, u.role as srole,u.status as sstatus,uu.userid as aid, uu.username as aname,uu.imgpath as aimgpath, uu.role as arole,uu.status as astatus FROM applyleave a join users u on a.userId = u.userid left join students s on s.SID = u.userid left join staff st on st.department = s.SBranch and st.stafftype='HOD'left join users uu on a.approved_by = uu.userid WHERE st.staffid=?";
 	
 	//STUDENT SQL
 	public static final String STUDENT_SQL = "SELECT * FROM STUDENTS";
@@ -37,4 +38,5 @@ public class CommonSql {
 	public static final String VENDOR_DELETE_SQL = null;
 	public static final String VENDOR_SAVE_SQL = null;
 	public static final String VENDOR_UPDATE_SQL = null;
+	public static final String STUDENT_LEAVE_DETAILS_SQL = "SELECT a.*,u.userid as sid, u.username as sname,u.imgpath as simgpath, u.role as srole,u.status as sstatus,uu.userid as aid, uu.username as aname,uu.imgpath as aimgpath, uu.role as arole,uu.status as astatus FROM applyleave a join users u on a.userId = u.userid left join users uu on a.approved_by = uu.userid where u.userid=?";
 }

@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.bit.hostel.common.CommonSql;
+import com.bit.hostel.model.Leave;
 import com.bit.hostel.model.Student;
+import com.bit.hostel.model.User;
 
 public class StudentDaoImpl extends CommonDao<Student>{
 
@@ -150,4 +151,58 @@ public class StudentDaoImpl extends CommonDao<Student>{
 	public int delete(Student obj) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public List<Leave> getLeaveDetails(User u) {
+
+		List<Leave> leaves = new ArrayList<Leave>();
+		Connection con = getConnection();
+		try{
+			PreparedStatement stmt = con.prepareStatement(CommonSql. STUDENT_LEAVE_DETAILS_SQL);
+			stmt.setInt(1, u.getUserId());
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Leave leave = new Leave();
+				leave.setId(rs.getInt("id"));
+				
+				User user = new User();
+				user.setUserId(rs.getInt("sid"));
+				user.setUsername(rs.getString("sname"));
+				user.setImgpath(rs.getString("simgpath"));
+				user.setRole(rs.getString("srole"));
+				user.setStatus(rs.getInt("sstatus"));
+				leave.setUser(user);
+				
+				leave.setPurpose(rs.getString("purpose"));
+				leave.setRemark(rs.getString("remark"));
+				leave.setIntime(rs.getTimestamp("intime"));
+				leave.setOutTime(rs.getTimestamp("outtime"));
+				leave.setStatus(rs.getString("confirm"));
+				leave.setUpdatedBy(rs.getString("updatedby"));
+				leave.setUpdatedOn(rs.getTimestamp("updatedon"));
+				
+				User approvedBy = new User();
+				approvedBy.setUserId(rs.getInt("aid"));
+				approvedBy.setUsername(rs.getString("aname"));
+				approvedBy.setImgpath(rs.getString("aimgpath"));
+				approvedBy.setRole(rs.getString("arole"));
+				approvedBy.setStatus(rs.getInt("astatus"));
+				
+				leave.setApprovedBy(approvedBy);
+				leaves.add(leave);
+				
+			}
+			
+		}catch(Exception ex){
+			ex.printStackTrace();	
+		}finally{
+			if(con!=null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return leaves;
+	
 	}}
