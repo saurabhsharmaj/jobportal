@@ -39,5 +39,5 @@ if(request.getSession().getAttribute("user")!=null){
             </ul>
             <!-- /.navbar-top-links -->
 
-           <jsp:include page="adminleftnav.jsp"></jsp:include>
+           <jsp:include page="leftnav_admin.jsp"></jsp:include>
         </nav>
