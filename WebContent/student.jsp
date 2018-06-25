@@ -33,8 +33,7 @@
 											<th class="sorting_asc" tabindex="0"
 												aria-controls="dataTables-example" rowspan="1" colspan="1"
 												aria-label="Rendering engine: activate to sort column descending"
-												style="width: 71px;" aria-sort="ascending">Student Id
-												engine</th>
+												style="width: 71px;" aria-sort="ascending">SID</th>
 											<th class="sorting" tabindex="0"
 												aria-controls="dataTables-example" rowspan="1" colspan="1"
 												aria-label="Browser: activate to sort column ascending"
@@ -42,7 +41,11 @@
 											<th class="sorting" tabindex="0"
 												aria-controls="dataTables-example" rowspan="1" colspan="1"
 												aria-label="Platform(s): activate to sort column ascending"
-												style="width: 81px;">Last Name</th>											
+												style="width: 81px;">Last Name</th>	
+											<th class="sorting" tabindex="0"
+												aria-controls="dataTables-example" rowspan="1" colspan="1"
+												aria-label="Platform(s): activate to sort column ascending"
+												style="width: 81px;">Branch</th>											
 										</tr>
 									</thead>
 									<tbody>
@@ -54,12 +57,13 @@
 									<td><%=studentList.get(i).getSID()%></td>
 									<td><%=studentList.get(i).getFirstName()%></td>
 									<td><%=studentList.get(i).getLastName()%></td>
+									<td><%=studentList.get(i).getsBranch()%></td>
 								</tr>	
 						<%
 							}
 							} else {
 						%>
-						<td colspan="3" align="center">No Data Available</td>
+						<td colspan="4" align="center">No Data Available</td>
 						<%
 							
 						}%>

@@ -208,4 +208,42 @@ public class StudentDaoImpl extends CommonDao<Student>{
 	
 	}
 
+	public List<Student> get(String branchName) {
+
+
+		List<Student> students = new ArrayList<Student>();
+		Connection con = getConnection();
+		try{
+			PreparedStatement stmt = con.prepareStatement(CommonSql. STUDENT_DETAILS_ROLE_SQL);
+			stmt.setString(1, branchName);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				try{
+					Student student = new Student();
+					student.setSID(rs.getInt(1));
+					student.setFirstName(rs.getString(2));
+					student.setLastName(rs.getString(3));
+					student.setsBranch(rs.getString(4));
+					students.add(student);				
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+				
+			}
+			
+		}catch(Exception ex){
+			ex.printStackTrace();	
+		}finally{
+			if(con!=null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return students;
+	
+	
+	}
+
 }

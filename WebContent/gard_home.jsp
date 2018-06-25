@@ -97,24 +97,22 @@
 							</td>
 							<td><%=userList.get(i).getUpdatedOn()%></td>
 							<td>
-							<div class="row">
-							<%if(userList.get(i).getIsGatePassGenerate().equals(1)){ %>
-							<div class="col-lg-6">
-								Done
-							</div>
-								<div class="col-lg-6">
-									
-									<a href="./admin?action=cancelpass&leaveId=<%=userList.get(i).getId() %>" class="button">Cancel</a>
-									</div>
-								<%} else { %>
-								<div class="col-lg-6">
-									Pending
-								</div>
-									<div class="col-lg-6">
-									
-									<a href="./admin?action=createpass&leaveId=<%=userList.get(i).getId() %>" class="button">Pass Create</a>
-									</div>
-								<%} %>
+								<div class="row">
+									<%if(userList.get(i).getIsGatePassGenerate().equals(1)){ %>
+										<div class="col-lg-4">
+											Done
+										</div>
+										<div class="col-lg-4">
+											<a href="./admin?action=cancelpass&leaveId=<%=userList.get(i).getId() %>" class="btn btn-primary">Cancel</a>
+										</div>
+										<%} else { %>
+										<div class="col-lg-4">
+											Pending
+										</div>
+										<div class="col-lg-4">									
+											<a href="./admin?action=createpass&leaveId=<%=userList.get(i).getId() %>" class="btn btn-primary">Create Pass</a>
+										</div>
+									<%} %>
 								</div>
 							</td>
 						</tr>

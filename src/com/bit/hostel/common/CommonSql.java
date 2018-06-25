@@ -43,4 +43,6 @@ public class CommonSql {
 	public static final String LEAVE_SAVE_SQL = "INSERT INTO `jobportal`.`applyleave` (`userid`, `purpose`, `remark`, `intime`, `outtime`, `confirm`, `updatedby`, `isgatepassgen`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String LEAVE_UPDATE_SQL = "UPDATE `jobportal`.`applyleave` SET `approved_by`=?, `confirm`=?, `updatedby`=? WHERE `id`=?";
 	public static final String LEAVE_GATE_PASS_SQL = "UPDATE `jobportal`.`applyleave` SET `updatedby`=?, `isgatepassgen`=? WHERE `id`=?";
+	public static final String STUDENT_DETAILS_ROLE_SQL = "SELECT s.* FROM USERS u JOIN STUDENTS s ON u.userid=s.sid where s.sbranch=?";
+	public static final String STAFF_BY_ROLE_SQL="SELECT * FROM staff WHERE department=? ";
 }

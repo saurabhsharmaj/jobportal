@@ -274,4 +274,42 @@ public class StaffDaoImpl extends CommonDao<Staff> {
 	
 	}
 
+	public List<Staff> get(String role) {
+
+		List<Staff> staffs = new ArrayList<Staff>();
+		Connection con = getConnection();
+		try {
+			PreparedStatement stmt = con.prepareStatement(CommonSql.STAFF_BY_ROLE_SQL);
+			stmt.setString(1, role);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Staff staff = new Staff();
+				staff.setStaffId(rs.getInt(1));
+				staff.setStaffname(rs.getString(2));
+				staff.setContact(rs.getString(3));
+				staff.setEmail(rs.getString(4));
+				staff.setGender(rs.getString(5));
+				staff.setDepartment(rs.getString(6));
+				staff.setStafftype(rs.getString(7));
+				staff.setDateofbirth(rs.getDate(8));
+				staff.setUpdatedOn(rs.getDate(9));
+				staff.setUpdatedby(rs.getString(10));
+				staff.setStatusenum(rs.getString(11));
+				staffs.add(staff);
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return staffs;
+	
+	}
+
 }

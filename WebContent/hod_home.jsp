@@ -92,18 +92,18 @@
 							<div class="row">
 								<% if(userList.get(i).getStatus().equals("pending")) {%>
 									<div class="col-lg-6">									
-									<a href="./admin?action=approvedleave&leaveId=<%=userList.get(i).getId() %>" class="button">Allow</a>
+									<a href="./admin?action=approvedleave&leaveId=<%=userList.get(i).getId() %>" class="btn btn-primary">Allow</a>
 									</div>
 									<div class="col-lg-6">
-									<a href="./admin?action=rejectleave&leaveId=<%=userList.get(i).getId() %>" class="button">Reject</a>
+									<a href="./admin?action=rejectleave&leaveId=<%=userList.get(i).getId() %>" class="btn btn-primary">Reject</a>
 									</div>
 								<%} else if(userList.get(i).getStatus().equals("cancel")) { %>
 									<div class="col-lg-6">
-									<a href="./admin?action=approvedleave&leaveId=<%=userList.get(i).getId() %> "class="button">Allow</a>
+									<a href="./admin?action=approvedleave&leaveId=<%=userList.get(i).getId() %>" class="btn btn-primary">Allow</a>
 									</div>
 								<%} else if(userList.get(i).getStatus().equals("allow")) { %>
 									<div class="col-lg-6">
-									<a href="./admin?action=rejectleave&leaveId=<%=userList.get(i).getId() %>" class="button">Reject</a>
+									<a href="./admin?action=rejectleave&leaveId=<%=userList.get(i).getId() %>" class="btn btn-primary">Reject</a>
 									</div>
 								<%} %>
 								</div>

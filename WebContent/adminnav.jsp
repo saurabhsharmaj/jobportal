@@ -3,7 +3,6 @@
 User user = null;
 if(request.getSession().getAttribute("user")!=null){
 	user = (User)request.getSession().getAttribute("user");
-}
 %>
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -18,12 +17,12 @@ if(request.getSession().getAttribute("user")!=null){
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-               	<%if(request.getAttribute("pendingReq") !=null && (boolean)request.getAttribute("pendingReq")) {%>
-               	<li>
-               		<a href="#">
-			         <span class="fa fa-bell"></span>
-			        </a>
-               	</li>  
+               	<%if(request.getAttribute("pendingReq") !=null && (Integer)request.getAttribute("pendingReq") > 0) {%>
+               	<li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell faa-ring animated"></i> <span class="badge"><%=request.getAttribute("pendingReq") %></span>
+                    </a>
+                </li> 
                	<%} %>           
                
                 <li class="dropdown">
@@ -47,3 +46,7 @@ if(request.getSession().getAttribute("user")!=null){
 
            <jsp:include page="leftnav_admin.jsp"></jsp:include>
         </nav>
+<%} else {
+
+response.sendRedirect("./login.jsp");
+}%>
