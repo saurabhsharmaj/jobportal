@@ -45,6 +45,9 @@ if(request.getSession().getAttribute("user") !=null){
 	                         <li>
 	                            <a href="./admin?action=leave"><i class="fa fa-table fa-fw"></i> Apply Leave</a>
 	                        </li>
+	                        <li>
+	                            <a href="./admin"><i class="fa fa-table fa-fw"></i> View Leave</a>
+	                        </li>
 	                         <li>
 	                            <a href="./admin?action=staff"><i class="fa fa-table fa-fw"></i> Staff</a>
 	                        </li>
@@ -56,11 +59,17 @@ if(request.getSession().getAttribute("user") !=null){
 	                         <li>
 	                            <a href="./admin?action=leave"><i class="fa fa-table fa-fw"></i> Apply Leave</a>
 	                        </li>
+	                         <li>
+	                            <a href="./admin"><i class="fa fa-table fa-fw"></i> View Leave</a>
+	                        </li>
                        
                        	<%} else if(user.getRole().equals(UserRole.STUDENT_ROLE)) { %>
                          	
 	                        <li>
 	                            <a href="./admin?action=leave"><i class="fa fa-table fa-fw"></i> Apply Leave</a>
+	                        </li>
+	                         <li>
+	                            <a href="./admin"><i class="fa fa-table fa-fw"></i> View Leave</a>
 	                        </li>
                         <%} else if(user.getRole().equals(UserRole.GARD_ROLE)) { %>
                         	<li>

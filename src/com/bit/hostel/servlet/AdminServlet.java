@@ -13,9 +13,12 @@ import com.bit.hostel.common.UserRole;
 import com.bit.hostel.dao.StaffDaoImpl;
 import com.bit.hostel.dao.StudentDaoImpl;
 import com.bit.hostel.dao.UserDaoImpl;
+import com.bit.hostel.dao.VendorDaoImpl;
 import com.bit.hostel.model.Leave;
 import com.bit.hostel.model.Staff;
+import com.bit.hostel.model.Student;
 import com.bit.hostel.model.User;
+import com.bit.hostel.model.Vendor;
 
 /**
  * Servlet implementation class HomeServlet
@@ -52,10 +55,28 @@ public class AdminServlet extends HttpServlet {
 				request.getSession().invalidate();
 				request.getRequestDispatcher("./home?action=login").forward(request, response);
 			}
-		} else if(action.equals("logout")){	
+		} else if(action.equals("leave")){
+			request.setAttribute("page", "leave.jsp");
+			request.getRequestDispatcher("./admin.jsp").forward(request, response);
+		}  else if(action.equals("student")){
+			List<Student> list = new StudentDaoImpl().get();
+			request.setAttribute("list", list);
+			request.setAttribute("page", "student.jsp");
+			request.getRequestDispatcher("./admin.jsp").forward(request, response);
+		} else if(action.equals("vendor")){
+			List<Vendor> list = new VendorDaoImpl().get();
+			request.setAttribute("list", list);
+			request.setAttribute("page", "vendor.jsp");
+			request.getRequestDispatcher("./admin.jsp").forward(request, response);
+		} else if(action.equals("staff")){
+			List<Staff> list = staffDao.get();
+			request.setAttribute("list", list);
+			request.setAttribute("page", "staff.jsp");
+			request.getRequestDispatcher("./admin.jsp").forward(request, response);
+		}else if(action.equals("logout")){	
 			request.getSession().invalidate();
 			request.getRequestDispatcher("./home?action=login").forward(request, response);
-		} else {
+		}else {
 			request.getRequestDispatcher("./admin.jsp").forward(request, response);
 		}
 	}
