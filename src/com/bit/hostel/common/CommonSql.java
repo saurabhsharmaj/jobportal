@@ -41,5 +41,6 @@ public class CommonSql {
 	public static final String VENDOR_UPDATE_SQL = null;
 	public static final String STUDENT_LEAVE_DETAILS_SQL = "SELECT a.*,u.userid as sid, u.username as sname,u.imgpath as simgpath, u.role as srole,u.status as sstatus,uu.userid as aid, uu.username as aname,uu.imgpath as aimgpath, uu.role as arole,uu.status as astatus FROM applyleave a join users u on a.userId = u.userid left join users uu on a.approved_by = uu.userid where u.userid=?";
 	public static final String LEAVE_SAVE_SQL = "INSERT INTO `jobportal`.`applyleave` (`userid`, `purpose`, `remark`, `intime`, `outtime`, `confirm`, `updatedby`, `isgatepassgen`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-	public static final String LEAVE_UPDATE_SQL = null;
+	public static final String LEAVE_UPDATE_SQL = "UPDATE `jobportal`.`applyleave` SET `approved_by`=?, `confirm`=?, `updatedby`=? WHERE `id`=?";
+	public static final String LEAVE_GATE_PASS_SQL = "UPDATE `jobportal`.`applyleave` SET `updatedby`=?, `isgatepassgen`=? WHERE `id`=?";
 }

@@ -103,14 +103,16 @@
 								Done
 							</div>
 								<div class="col-lg-6">
-									<button >Cancel</button>
+									
+									<a href="./admin?action=cancelpass&leaveId=<%=userList.get(i).getId() %>" class="button">Cancel</a>
 									</div>
 								<%} else { %>
 								<div class="col-lg-6">
 									Pending
 								</div>
 									<div class="col-lg-6">
-									<button >Pass Create</button>
+									
+									<a href="./admin?action=createpass&leaveId=<%=userList.get(i).getId() %>" class="button">Pass Create</a>
 									</div>
 								<%} %>
 								</div>

@@ -37,6 +37,10 @@ public abstract class CommonDao<T> {
 				stmt.setInt(8, 0);
 			} else {
 				stmt = con.prepareStatement(CommonSql. LEAVE_UPDATE_SQL);
+				stmt.setInt(1,leave.getApprovedBy().getUserId());
+				stmt.setString(2, leave.getStatus());
+				stmt.setString(3, leave.getApprovedBy().getUsername());
+				stmt.setInt(4, leave.getId());
 				
 			}			
 			stmt.executeUpdate();
@@ -51,6 +55,40 @@ public abstract class CommonDao<T> {
 					e.printStackTrace();
 				}
 		}
+		
+	}
+	
+	public void GeneratePass(Leave leave) {
+		
+		Connection con = getConnection();
+		try{
+			PreparedStatement stmt = null;
+			if(leave.getIsGatePassGenerate()==1){
+				stmt = con.prepareStatement(CommonSql. LEAVE_GATE_PASS_SQL);
+				stmt.setString(1,leave.getUpdatedBy());
+				stmt.setInt(2, 1);
+				stmt.setInt(3, leave.getId());
+			} else {
+				stmt = con.prepareStatement(CommonSql. LEAVE_GATE_PASS_SQL);
+				stmt.setString(1,leave.getUpdatedBy());
+				stmt.setInt(2, 0);
+				stmt.setInt(3, leave.getId());
+				
+			}			
+			stmt.executeUpdate();
+			
+		}catch(Exception ex){
+			ex.printStackTrace();	
+		}finally{
+			if(con!=null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+	
 		
 	}
 }

@@ -91,19 +91,19 @@
 							<td>
 							<div class="row">
 								<% if(userList.get(i).getStatus().equals("pending")) {%>
-									<div class="col-lg-6">
-									<button >Allow</button>
+									<div class="col-lg-6">									
+									<a href="./admin?action=approvedleave&leaveId=<%=userList.get(i).getId() %>" class="button">Allow</a>
 									</div>
 									<div class="col-lg-6">
-									<button >Reject</button>
+									<a href="./admin?action=rejectleave&leaveId=<%=userList.get(i).getId() %>" class="button">Reject</a>
 									</div>
 								<%} else if(userList.get(i).getStatus().equals("cancel")) { %>
 									<div class="col-lg-6">
-									<button >Allow</button>
+									<a href="./admin?action=approvedleave&leaveId=<%=userList.get(i).getId() %> "class="button">Allow</a>
 									</div>
 								<%} else if(userList.get(i).getStatus().equals("allow")) { %>
 									<div class="col-lg-6">
-									<button >Reject</button>
+									<a href="./admin?action=rejectleave&leaveId=<%=userList.get(i).getId() %>" class="button">Reject</a>
 									</div>
 								<%} %>
 								</div>

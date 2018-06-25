@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bit.hostel.common.Constants;
 import com.bit.hostel.common.UserRole;
 import com.bit.hostel.common.Utils;
 import com.bit.hostel.dao.StaffDaoImpl;
@@ -49,7 +50,7 @@ public class AdminServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		if(action == null || action.length() == 0){
+		if(action == null || action.length() == 0 || action.equals("home")){
 			if(redirect(request,response)){
 			request.getRequestDispatcher("./admin.jsp").forward(request, response);
 			} else {
@@ -59,6 +60,26 @@ public class AdminServlet extends HttpServlet {
 		} else if(action.equals("leave")){
 			request.setAttribute("page", "leave.jsp");
 			request.getRequestDispatcher("./admin.jsp").forward(request, response);
+		}   else if(action.equals("approvedleave")){
+			User user = (User)request.getSession().getAttribute("user");
+			request.setAttribute("page", "hod_home.jsp");
+			String leaveId=request.getParameter("leaveId");
+			Leave leave = new Leave();
+			leave.setId(Integer.parseInt(leaveId));
+			leave.setApprovedBy(user);
+			leave.setStatus(Constants.ALLOW_LEAVE);
+			staffDao.saveLeave(leave);
+			request.getRequestDispatcher("./admin?action=home").forward(request, response);
+		}     else if(action.equals("rejectleave")){
+			User user = (User)request.getSession().getAttribute("user");
+			request.setAttribute("page", "hod_home.jsp");
+			String leaveId=request.getParameter("leaveId");
+			Leave leave = new Leave();
+			leave.setId(Integer.parseInt(leaveId));
+			leave.setApprovedBy(user);
+			leave.setStatus(Constants.CANCEL_LEAVE);
+			staffDao.saveLeave(leave);
+			request.getRequestDispatcher("./admin?action=home").forward(request, response);
 		}  else if(action.equals("student")){
 			List<Student> list = new StudentDaoImpl().get();
 			request.setAttribute("list", list);
@@ -77,7 +98,27 @@ public class AdminServlet extends HttpServlet {
 		}else if(action.equals("logout")){	
 			request.getSession().invalidate();
 			request.getRequestDispatcher("./home?action=login").forward(request, response);
-		}else {
+		}   else if(action.equals("createpass")){
+			User user = (User)request.getSession().getAttribute("user");
+			request.setAttribute("page", "gard_home.jsp");
+			String leaveId=request.getParameter("leaveId");
+			Leave leave = new Leave();
+			leave.setId(Integer.parseInt(leaveId));
+			leave.setIsGatePassGenerate(1);
+			leave.setUpdatedBy(user.getUsername());
+			staffDao.GeneratePass(leave);
+			request.getRequestDispatcher("./admin?action=home").forward(request, response);
+		}     else if(action.equals("cancelpass")){
+			User user = (User)request.getSession().getAttribute("user");
+			request.setAttribute("page", "gard_home.jsp");
+			String leaveId=request.getParameter("leaveId");
+			Leave leave = new Leave();
+			leave.setId(Integer.parseInt(leaveId));
+			leave.setIsGatePassGenerate(0);
+			leave.setUpdatedBy(user.getUsername());
+			staffDao.GeneratePass(leave);
+			request.getRequestDispatcher("./admin?action=home").forward(request, response);
+		}  else {
 			request.getRequestDispatcher("./admin.jsp").forward(request, response);
 		}
 	}
@@ -104,7 +145,7 @@ public class AdminServlet extends HttpServlet {
 			List<Leave> leaves = staffDao.getLeaveDetails();
 			request.setAttribute("leaves",leaves);
 			request.setAttribute("page", "gard_home.jsp");
-		}
+		} 
 		return true;
 	}
 
