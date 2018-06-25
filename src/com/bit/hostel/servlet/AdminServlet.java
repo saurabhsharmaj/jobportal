@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bit.hostel.common.UserRole;
+import com.bit.hostel.common.Utils;
 import com.bit.hostel.dao.StaffDaoImpl;
 import com.bit.hostel.dao.StudentDaoImpl;
 import com.bit.hostel.dao.UserDaoImpl;
@@ -111,7 +112,19 @@ public class AdminServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		String action = request.getParameter("action");
+		if(action != null && action.equals("leave")){
+			Leave leave = new Leave();
+			leave.setPurpose(request.getParameter("purpose"));
+			leave.setIntime(Utils.stringToDate(request.getParameter("intime")));
+			leave.setOutTime(Utils.stringToDate(request.getParameter("outtime")));
+			leave.setRemark(request.getParameter("remark"));
+			User user = (User)request.getSession().getAttribute("user");
+			leave.setUser(user);
+			studentDao.saveLeave(leave);
+			response.sendRedirect("./admin");
+		}
+			
 	}
 
 }

@@ -206,4 +206,6 @@ public class StudentDaoImpl extends CommonDao<Student>{
 		}
 		return leaves;
 	
-	}}
+	}
+
+}
