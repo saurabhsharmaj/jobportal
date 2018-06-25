@@ -133,6 +133,8 @@ public class AdminServlet extends HttpServlet {
 			Staff staff = staffDao.get(user.getUserId());
 			request.getSession().setAttribute("otherdetails", staff);
 			List<Leave> leaves = staffDao.getLeaveDetails(staff);
+			boolean ispendingAvl = anyPendingRequest(leaves);
+			request.setAttribute("pendingReq",ispendingAvl);
 			request.setAttribute("leaves",leaves);
 			request.setAttribute("page", "hod_home.jsp");
 		} else if(user.getRole().equals(UserRole.STAFF_ROLE)){
@@ -147,6 +149,15 @@ public class AdminServlet extends HttpServlet {
 			request.setAttribute("page", "gard_home.jsp");
 		} 
 		return true;
+	}
+
+	private boolean anyPendingRequest(List<Leave> leaves) {
+		for (Leave leave : leaves) {
+			if(leave.getStatus().equals("pending")){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

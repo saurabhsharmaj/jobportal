@@ -18,7 +18,13 @@ if(request.getSession().getAttribute("user")!=null){
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-                            
+               	<%if(request.getAttribute("pendingReq") !=null && (boolean)request.getAttribute("pendingReq")) {%>
+               	<li>
+               		<a href="#">
+			         <span class="fa fa-bell"></span>
+			        </a>
+               	</li>  
+               	<%} %>           
                
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
