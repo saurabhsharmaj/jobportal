@@ -30,6 +30,17 @@ public class Student{
 	private String sEnum;
 	private Date updatedOn;
 	private String updatedBy;
+	private String section;
+	
+	
+	
+	
+	public String getSection() {
+		return section;
+	}
+	public void setSection(String section) {
+		this.section = section;
+	}
 	public Integer getSID() {
 		return SID;
 	}

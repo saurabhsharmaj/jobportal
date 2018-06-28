@@ -82,6 +82,26 @@ public class AdminServlet extends HttpServlet {
 			leave.setStatus(Constants.CANCEL_LEAVE);
 			staffDao.saveLeave(leave);
 			request.getRequestDispatcher("./admin?action=home").forward(request, response);
+		} else if(action.equals("user")){
+			List<User> list = userDao.get();
+			request.setAttribute("list", list);
+			request.setAttribute("page", "user.jsp");
+			request.getRequestDispatcher("./admin.jsp").forward(request, response);
+		}   else if(action.equals("editprofile")){
+			if(user.getRole().equalsIgnoreCase(UserRole.ADMIN_ROLE)){
+				request.setAttribute("admin", request.getSession().getAttribute("otherdetails"));
+				request.setAttribute("page", "editprofile.jsp");
+			} else if(user.getRole().equalsIgnoreCase(UserRole.STAFF_HOD_ROLE) || user.getRole().equalsIgnoreCase(UserRole.STAFF_ROLE)){
+				request.setAttribute("staff", request.getSession().getAttribute("otherdetails"));
+				request.setAttribute("page", "staff_edit.jsp");
+			} else if(user.getRole().equalsIgnoreCase(UserRole.STUDENT_ROLE)){
+				request.setAttribute("student", request.getSession().getAttribute("otherdetails"));
+				request.setAttribute("page", "editprofile.jsp");
+			} else if(user.getRole().equalsIgnoreCase(UserRole.GARD_ROLE)){
+				request.setAttribute("gard", request.getSession().getAttribute("otherdetails"));
+				request.setAttribute("page", "editprofile.jsp");
+			}
+			request.getRequestDispatcher("./admin.jsp").forward(request, response);
 		}  else if(action.equals("student")){
 			Staff staffDetail = (Staff)request.getSession().getAttribute("otherdetails");
 			List<Student> list = studentDao.get(staffDetail.getDepartment());
@@ -99,7 +119,7 @@ public class AdminServlet extends HttpServlet {
 			request.setAttribute("list", list);
 			request.setAttribute("page", "staff.jsp");
 			request.getRequestDispatcher("./admin.jsp").forward(request, response);
-		}else if(action.equals("logout")){	
+		} else if(action.equals("logout")){	
 			request.getSession().invalidate();
 			request.getRequestDispatcher("./home?action=login").forward(request, response);
 		}   else if(action.equals("createpass")){
@@ -130,6 +150,9 @@ public class AdminServlet extends HttpServlet {
 		if(user == null){
 			return false;
 		} else if(user.getRole().equals(UserRole.ADMIN_ROLE)){
+			Staff admin = new Staff();
+			admin.setDepartment("ALL");
+			request.getSession().setAttribute("otherdetails", admin);
 			request.setAttribute("page", "");
 		} else if(user.getRole().equals(UserRole.STAFF_HOD_ROLE)){
 			Staff staff = staffDao.get(user.getUserId());
@@ -138,10 +161,14 @@ public class AdminServlet extends HttpServlet {
 			Integer ispendingAvl = anyPendingRequest(leaves);
 			request.setAttribute("pendingReq",ispendingAvl);
 			request.setAttribute("leaves",leaves);
+			List<Leave> leavesstaff = staffDao.getLeaveDetailsStaff(staff);
+			request.setAttribute("leavesstaff",leavesstaff);
 			request.setAttribute("page", "hod_home.jsp");
 		} else if(user.getRole().equals(UserRole.STAFF_ROLE)){
 			Staff staff = staffDao.get(user.getUserId());
 			request.getSession().setAttribute("otherdetails", staff);
+			List<Leave> leaves = staffDao.getLeaveDetails(user);
+			request.setAttribute("leaves",leaves);
 			request.setAttribute("page", "staff_home.jsp");
 		} else if(user.getRole().equals(UserRole.STUDENT_ROLE)){
 			List<Leave> leaves = studentDao.getLeaveDetails(user);
@@ -150,6 +177,8 @@ public class AdminServlet extends HttpServlet {
 		} else if(user.getRole().equals(UserRole.GARD_ROLE)){
 			List<Leave> leaves = staffDao.getLeaveDetails();
 			request.setAttribute("leaves",leaves);
+			List<Leave> leavesstaff = staffDao.getLeaveDetailsStaff();
+			request.setAttribute("leavesstaff",leavesstaff);
 			request.setAttribute("page", "gard_home.jsp");
 		} 
 		return true;

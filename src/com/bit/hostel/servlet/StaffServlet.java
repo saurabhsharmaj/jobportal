@@ -37,11 +37,13 @@ public class StaffServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
+		String basePage = request.getSession().getAttribute("user")==null?"./index.jsp":"./admin.jsp";
 		if(action == null || action.length() ==0) {
 			List<Staff> list = staffDao.get();
 			request.setAttribute("list", list);
 			request.setAttribute("page", "staff.jsp");
-			request.getRequestDispatcher("./index.jsp").forward(request, response);
+			
+			request.getRequestDispatcher(basePage).forward(request, response);
 		} else if(action.equalsIgnoreCase("edit")){
 			String staffId = request.getParameter("id");
 			if(staffId == null || staffId.length() == 0) {
@@ -55,7 +57,7 @@ public class StaffServlet extends HttpServlet {
 				request.setAttribute("staff", staff);
 				request.setAttribute("page", "staff_edit.jsp");
 			}
-			request.getRequestDispatcher("./index.jsp").forward(request, response);
+			request.getRequestDispatcher("./admin.jsp").forward(request, response);
 		} else if(action.equalsIgnoreCase("delete")){
 			List<Staff> list = staffDao.get();
 			request.setAttribute("list", list);
@@ -69,15 +71,15 @@ public class StaffServlet extends HttpServlet {
 				request.setAttribute("staff", staff);
 				request.setAttribute("page", "staff.jsp");
 			}
-			request.getRequestDispatcher("./index.jsp").forward(request, response);
+			request.getRequestDispatcher(basePage).forward(request, response);
 		} else if(action.equalsIgnoreCase("save")){
 			List<Staff> list = staffDao.get();
 			request.setAttribute("list", list);
 			request.setAttribute("page", "staff.jsp");
-			request.getRequestDispatcher("./index.jsp").forward(request, response);
+			request.getRequestDispatcher(basePage).forward(request, response);
 		} else if(action.equalsIgnoreCase("add")){	
 			request.setAttribute("page", "staff_edit.jsp");
-			request.getRequestDispatcher("./index.jsp").forward(request, response);
+			request.getRequestDispatcher(basePage).forward(request, response);
 		}
 
 	}
@@ -120,7 +122,7 @@ public class StaffServlet extends HttpServlet {
 
 		List<Staff> list = staffDao.get();
 		request.setAttribute("list", list);		
-		response.sendRedirect("staffServlet");
+		response.sendRedirect("./staffServlet");
 	}
 
 

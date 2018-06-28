@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.bit.hostel.common.CommonSql;
@@ -101,10 +102,69 @@ public class StudentDaoImpl extends CommonDao<Student>{
 		Connection con = getConnection();
 		try{
 			PreparedStatement stmt = null;
-			if(student.getSID() == null || student.getSID() == 0){
-				stmt = con.prepareStatement(CommonSql. STUDENT_SAVE_SQL);
+			if(isStudentExist(student.getSID())==false){
+				
+				stmt = con.prepareStatement(student.getSID()>0 ?CommonSql.STUDENT_SAVE_WITH_ID_SQL:CommonSql.STUDENT_SAVE_SQL);
+				int count =1;
+				if(student.getSID()>0 ){
+					stmt.setInt(count++, student.getSID());
+				}
+				
+				stmt.setString(count++,student.getFirstName());
+				stmt.setString(count++,student.getLastName());
+				stmt.setString(count++,student.getsBranch());
+				stmt.setString(count++,student.getsMobile());
+				stmt.setString(count++,student.getsGender());
+				stmt.setString(count++,student.getsRollNo());
+				stmt.setString(count++,student.getsEmail());
+				stmt.setString(count++,student.getsAddressP());
+				stmt.setString(count++,student.getsAddressC());
+				stmt.setString(count++,student.getsCity());
+				stmt.setString(count++,student.getsState());
+				stmt.setDate(count++, new java.sql.Date(new Date().getTime()));
+				stmt.setString(count++,student.getS10Th());
+				stmt.setString(count++,student.getS12Th());
+				stmt.setString(count++,student.getsDeploma());
+				stmt.setString(count++,student.getsPercent());
+				stmt.setString(count++,student.getsJee());
+				stmt.setString(count++,student.getsDirect());
+				stmt.setString(count++,student.getFatherName());
+				stmt.setString(count++,student.getMotherName());
+				stmt.setString(count++,student.getFatherContact());
+				stmt.setString(count++,student.getMotherContact());
+				stmt.setString(count++,student.getsYear());
+				stmt.setString(count++,student.getsEnum());
+				stmt.setDate(count++, new java.sql.Date(new Date().getTime()));
+				stmt.setString(count++,student.getUpdatedBy());
 			} else {
 				stmt = con.prepareStatement(CommonSql. STUDENT_UPDATE_SQL);
+				stmt.setString(1,student.getFirstName());
+				stmt.setString(2,student.getLastName());
+				stmt.setString(3,student.getsBranch());
+				stmt.setString(4,student.getsMobile());
+				stmt.setString(5,student.getsGender());
+				stmt.setString(6,student.getsRollNo());
+				stmt.setString(7,student.getsEmail());
+				stmt.setString(8,student.getsAddressP());
+				stmt.setString(9,student.getsAddressC());
+				stmt.setString(10,student.getsCity());
+				stmt.setString(11,student.getsState());
+				stmt.setDate(12, new java.sql.Date(new Date().getTime()));
+				stmt.setString(13,student.getS10Th());
+				stmt.setString(14,student.getS12Th());
+				stmt.setString(15,student.getsDeploma());
+				stmt.setString(16,student.getsPercent());
+				stmt.setString(17,student.getsJee());
+				stmt.setString(18,student.getsDirect());
+				stmt.setString(19,student.getFatherName());
+				stmt.setString(20,student.getMotherName());
+				stmt.setString(21,student.getFatherContact());
+				stmt.setString(22,student.getMotherContact());
+				stmt.setString(23,student.getsYear());
+				stmt.setString(24,student.getsEnum());
+				stmt.setDate(25, new java.sql.Date(new Date().getTime()));
+				stmt.setString(26,student.getUpdatedBy());
+				stmt.setInt(27, student.getSID());
 				
 			}
 			
@@ -122,6 +182,18 @@ public class StudentDaoImpl extends CommonDao<Student>{
 		}
 		
 	
+	}
+
+	private boolean isStudentExist(Integer sid) {
+		if(sid == null || sid == 0)
+			return false;
+		else{
+			if(get(sid)==null){
+				return false;
+			}
+		}
+			
+		return true;
 	}
 
 	@Override
@@ -245,5 +317,6 @@ public class StudentDaoImpl extends CommonDao<Student>{
 	
 	
 	}
+	
 
 }

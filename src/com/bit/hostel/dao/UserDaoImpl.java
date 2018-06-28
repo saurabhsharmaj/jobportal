@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.bit.hostel.common.CommonSql;
 import com.bit.hostel.common.Constants;
+import com.bit.hostel.model.Leave;
+import com.bit.hostel.model.Student;
 import com.bit.hostel.model.User;
 
 public class UserDaoImpl extends CommonDao<User>{
@@ -82,8 +85,21 @@ public class UserDaoImpl extends CommonDao<User>{
 			PreparedStatement stmt = null;
 			if(user.getUserId() == null || user.getUserId() == 0){
 				stmt = con.prepareStatement(CommonSql. USER_SAVE_SQL);
+				stmt.setString(1, user.getUsername());
+				stmt.setString(2, user.getPassword());
+				stmt.setString(3, user.getEmail());
+				stmt.setString(4, user.getImgpath());
+				stmt.setString(5, user.getRole());
+				stmt.setInt(6, user.getStatus());
 			} else {
 				stmt = con.prepareStatement(CommonSql. USER_UPDATE_SQL);
+				stmt.setString(1, user.getUsername());
+				stmt.setString(2, user.getPassword());
+				stmt.setString(3, user.getEmail());
+				stmt.setString(4, user.getImgpath());
+				stmt.setString(5, user.getRole());
+				stmt.setInt(6, user.getUserId());
+				stmt.setInt(6, user.getStatus());
 
 			}
 
@@ -169,4 +185,7 @@ public class UserDaoImpl extends CommonDao<User>{
 		}
 		return null;
 	}
+
+
+
 }

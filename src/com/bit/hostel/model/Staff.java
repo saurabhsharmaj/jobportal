@@ -14,8 +14,17 @@ public class Staff{
 	private String updatedby;
 	private Date updatedOn;
 	private String statusenum;
+	public String  Section;
 
 	
+	public String getSection() {
+		return Section;
+	}
+
+	public void setSection(String section) {
+		Section = section;
+	}
+
 	public Integer getStaffId() {
 		return staffId;
 	}
