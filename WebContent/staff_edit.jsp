@@ -15,7 +15,7 @@ if(request.getAttribute("staff") != null){
 		<div class="row">
 
 
-			<h1>Add New Staff</h1>
+			<h1>Edit Details</h1>
 
 			<form action="staffServlet" method="post">
 				<div class="well">

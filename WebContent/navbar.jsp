@@ -19,7 +19,7 @@
                     <!-- /.dropdown-user -->
                 </li>
                 <li >
-                    <a href="/signup">
+                    <a href="./home?action=signup">
                         sign up
                     </a>
                 </li>

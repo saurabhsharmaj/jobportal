@@ -19,7 +19,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">DataTables Advanced Tables</div>
+				<div class="panel-heading">User Table</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 					<div id="dataTables-example_wrapper"
@@ -54,6 +54,20 @@
 												aria-controls="dataTables-example" rowspan="1" colspan="1"
 												aria-label="Platform(s): activate to sort column ascending"
 												style="width: 81px;">Image Path</th>											
+												<th class="sorting" tabindex="0"
+												aria-controls="dataTables-example" rowspan="1" colspan="1"
+												aria-label="Platform(s): activate to sort column ascending"
+												style="width: 81px;">Role</th>											
+										   <th class="sorting" tabindex="0"
+												aria-controls="dataTables-example" rowspan="1" colspan="1"
+												aria-label="Platform(s): activate to sort column ascending"
+												style="width: 81px;">Status</th>											
+										   <th class="sorting" tabindex="0"
+												aria-controls="dataTables-example" rowspan="1" colspan="1"
+												aria-label="Platform(s): activate to sort column ascending"
+												style="width: 81px;">Last Login</th>											
+										
+																					
 										</tr>
 									</thead>
 									<tbody>
@@ -68,12 +82,16 @@
 							<td><%=userList.get(i).getPassword()%></td>
 							<td><%=userList.get(i).getEmail()%></td>
 							<td><%=userList.get(i).getImgpath()%></td>
+							<td><%=userList.get(i).getRole()%></td>
+							<td><%=userList.get(i).getStatus()%></td>
+							<td><%=userList.get(i).getLastLogin()%></td>
+						
 						</tr>
 						<%
 							}
 							} else {
 						%>
-						<td colspan="5" align="center">No Data Available</td>
+						<td colspan="8" align="center">No Data Available</td>
 						<%
 							}
 						%>
