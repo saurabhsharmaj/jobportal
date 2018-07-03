@@ -87,6 +87,8 @@ public class CommonSql {
 	public static final String LEAVE_SAVE_SQL = "INSERT INTO `jobportal`.`applyleave` (`userid`, `purpose`, `remark`, `intime`, `outtime`, `confirm`, `updatedby`, `isgatepassgen`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String LEAVE_UPDATE_SQL = "UPDATE `jobportal`.`applyleave` SET `approved_by`=?, `confirm`=?, `updatedby`=? WHERE `id`=?";
 	public static final String LEAVE_GATE_PASS_SQL = "UPDATE `jobportal`.`applyleave` SET `updatedby`=?, `isgatepassgen`=? WHERE `id`=?";
+	public static final String LEAVE_STATUS_SQL = "SELECT COUNT(*) FROM applyleave where userid=? and confirm=?";
+	public static final String ALL_LEAVE_STATUS_SQL = "SELECT COUNT(*) FROM applyleave where userid=?";
 	
 	
 	

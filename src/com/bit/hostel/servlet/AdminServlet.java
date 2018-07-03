@@ -48,101 +48,113 @@ public class AdminServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    	String action = request.getParameter("action");
+    	User user = (User)request.getSession().getAttribute("user");
+    	if(user==null){
+    		request.getRequestDispatcher("./login.jsp").forward(request, response);
+    	} else if(action == null || action.length() == 0 || action.equals("home")){
+    		if(redirect(request,response)){
+    			request.getRequestDispatcher("./admin.jsp").forward(request, response);
+    		} else {
+    			request.getSession().invalidate();
+    			request.getRequestDispatcher("./home?action=login").forward(request, response);
+    		}
+    	} else if(action.equals("leave")){
+    		request.setAttribute("page", "leave.jsp");
+    		request.getRequestDispatcher("./admin.jsp").forward(request, response);
+    	}   else if(action.equals("approvedleave")){
+    		request.setAttribute("page", "hod_home.jsp");
+    		String leaveId=request.getParameter("leaveId");
+    		Leave leave = new Leave();
+    		leave.setId(Integer.parseInt(leaveId));
+    		leave.setApprovedBy(user);
+    		leave.setStatus(Constants.ALLOW_LEAVE);
+    		staffDao.saveLeave(leave);
+    		request.getRequestDispatcher("./admin?action=home").forward(request, response);
+    	}     else if(action.equals("rejectleave")){
+    		request.setAttribute("page", "hod_home.jsp");
+    		String leaveId=request.getParameter("leaveId");
+    		Leave leave = new Leave();
+    		leave.setId(Integer.parseInt(leaveId));
+    		leave.setApprovedBy(user);
+    		leave.setStatus(Constants.CANCEL_LEAVE);
+    		staffDao.saveLeave(leave);
+    		request.getRequestDispatcher("./admin?action=home").forward(request, response);
+    	} else if(action.equals("user")){
+    		List<User> list = userDao.get();
+    		request.setAttribute("list", list);
+    		request.setAttribute("page", "user.jsp");
+    		request.getRequestDispatcher("./admin.jsp").forward(request, response);
+    	}   else if(action.equals("editprofile")){
+    		if(user.getRole().equalsIgnoreCase(UserRole.ADMIN_ROLE)){
+    			request.setAttribute("admin", request.getSession().getAttribute("otherdetails"));
+    			request.setAttribute("page", "editprofile.jsp");
+    		} else if(user.getRole().equalsIgnoreCase(UserRole.STAFF_HOD_ROLE) || user.getRole().equalsIgnoreCase(UserRole.STAFF_ROLE)){
+    			request.setAttribute("staff", request.getSession().getAttribute("otherdetails"));
+    			request.setAttribute("page", "staff_edit.jsp");
+    		} else if(user.getRole().equalsIgnoreCase(UserRole.STUDENT_ROLE)){
+    			request.setAttribute("student", request.getSession().getAttribute("otherdetails"));
+    			request.setAttribute("page", "editprofile.jsp");
+    		} else if(user.getRole().equalsIgnoreCase(UserRole.GARD_ROLE)){
+    			request.setAttribute("gard", request.getSession().getAttribute("otherdetails"));
+    			request.setAttribute("page", "editprofile.jsp");
+    		}
+    		request.getRequestDispatcher("./admin.jsp").forward(request, response);
+    	}  else if(action.equals("student")){
+    		Staff staffDetail = (Staff)request.getSession().getAttribute("otherdetails");
+    		List<Student> list = studentDao.get(staffDetail.getDepartment());
+    		request.setAttribute("list", list);
+    		request.setAttribute("page", "student.jsp");
+    		request.getRequestDispatcher("./admin.jsp").forward(request, response);
+    	} else if(action.equals("vendor")){
+    		List<Vendor> list = new VendorDaoImpl().get();
+    		request.setAttribute("list", list);
+    		request.setAttribute("page", "vendor.jsp");
+    		request.getRequestDispatcher("./admin.jsp").forward(request, response);
+    	} else if(action.equals("staff")){
+    		Staff staffDetail = (Staff)request.getSession().getAttribute("otherdetails");
+    		List<Staff> list = staffDao.get(staffDetail.getDepartment());
+    		request.setAttribute("list", list);
+    		request.setAttribute("page", "staff.jsp");
+    		request.getRequestDispatcher("./admin.jsp").forward(request, response);
+    	} else if(action.equals("logout")){	
+    		request.getSession().invalidate();
+    		request.getRequestDispatcher("./home?action=login").forward(request, response);
+    	}   else if(action.equals("createpass")){
+    		request.setAttribute("page", "gard_home.jsp");
+    		String leaveId=request.getParameter("leaveId");
+    		Leave leave = new Leave();
+    		leave.setId(Integer.parseInt(leaveId));
+    		leave.setIsGatePassGenerate(1);
+    		leave.setUpdatedBy(user.getUsername());
+    		staffDao.GeneratePass(leave);
+    		request.getRequestDispatcher("./admin?action=home").forward(request, response);
+    	} else if(action.equals("cancelpass")){
+    		request.setAttribute("page", "gard_home.jsp");
+    		String leaveId=request.getParameter("leaveId");
+    		Leave leave = new Leave();
+    		leave.setId(Integer.parseInt(leaveId));
+    		leave.setIsGatePassGenerate(0);
+    		leave.setUpdatedBy(user.getUsername());
+    		staffDao.GeneratePass(leave);
+    		request.getRequestDispatcher("./admin?action=home").forward(request, response);
+    	}   else if(action.equals("dashboard")){
+    		getLeaveDetails(user,request,response);
+    		request.setAttribute("page", "dashboard.jsp");
+    		request.getRequestDispatcher("./admin.jsp").forward(request, response);
+    	}  else {
+    		request.getRequestDispatcher("./admin.jsp").forward(request, response);
+    	}
+    }
+
+	private void getLeaveDetails(User user, HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("totalapplied", staffDao.getLeave(user,Constants.ALL_LEAVE));
+		request.setAttribute("approved", staffDao.getLeave(user,Constants.ALLOW_LEAVE));
+		request.setAttribute("pending",  staffDao.getLeave(user,Constants.PENDING_LEAVE));
+		request.setAttribute("cancelled", staffDao.getLeave(user,Constants.CANCEL_LEAVE));
 		
-		String action = request.getParameter("action");
-		User user = (User)request.getSession().getAttribute("user");
-		if(user==null){
-			request.getRequestDispatcher("./login.jsp").forward(request, response);
-		} else if(action == null || action.length() == 0 || action.equals("home")){
-			if(redirect(request,response)){
-			request.getRequestDispatcher("./admin.jsp").forward(request, response);
-			} else {
-				request.getSession().invalidate();
-				request.getRequestDispatcher("./home?action=login").forward(request, response);
-			}
-		} else if(action.equals("leave")){
-			request.setAttribute("page", "leave.jsp");
-			request.getRequestDispatcher("./admin.jsp").forward(request, response);
-		}   else if(action.equals("approvedleave")){
-			request.setAttribute("page", "hod_home.jsp");
-			String leaveId=request.getParameter("leaveId");
-			Leave leave = new Leave();
-			leave.setId(Integer.parseInt(leaveId));
-			leave.setApprovedBy(user);
-			leave.setStatus(Constants.ALLOW_LEAVE);
-			staffDao.saveLeave(leave);
-			request.getRequestDispatcher("./admin?action=home").forward(request, response);
-		}     else if(action.equals("rejectleave")){
-			request.setAttribute("page", "hod_home.jsp");
-			String leaveId=request.getParameter("leaveId");
-			Leave leave = new Leave();
-			leave.setId(Integer.parseInt(leaveId));
-			leave.setApprovedBy(user);
-			leave.setStatus(Constants.CANCEL_LEAVE);
-			staffDao.saveLeave(leave);
-			request.getRequestDispatcher("./admin?action=home").forward(request, response);
-		} else if(action.equals("user")){
-			List<User> list = userDao.get();
-			request.setAttribute("list", list);
-			request.setAttribute("page", "user.jsp");
-			request.getRequestDispatcher("./admin.jsp").forward(request, response);
-		}   else if(action.equals("editprofile")){
-			if(user.getRole().equalsIgnoreCase(UserRole.ADMIN_ROLE)){
-				request.setAttribute("admin", request.getSession().getAttribute("otherdetails"));
-				request.setAttribute("page", "editprofile.jsp");
-			} else if(user.getRole().equalsIgnoreCase(UserRole.STAFF_HOD_ROLE) || user.getRole().equalsIgnoreCase(UserRole.STAFF_ROLE)){
-				request.setAttribute("staff", request.getSession().getAttribute("otherdetails"));
-				request.setAttribute("page", "staff_edit.jsp");
-			} else if(user.getRole().equalsIgnoreCase(UserRole.STUDENT_ROLE)){
-				request.setAttribute("student", request.getSession().getAttribute("otherdetails"));
-				request.setAttribute("page", "editprofile.jsp");
-			} else if(user.getRole().equalsIgnoreCase(UserRole.GARD_ROLE)){
-				request.setAttribute("gard", request.getSession().getAttribute("otherdetails"));
-				request.setAttribute("page", "editprofile.jsp");
-			}
-			request.getRequestDispatcher("./admin.jsp").forward(request, response);
-		}  else if(action.equals("student")){
-			Staff staffDetail = (Staff)request.getSession().getAttribute("otherdetails");
-			List<Student> list = studentDao.get(staffDetail.getDepartment());
-			request.setAttribute("list", list);
-			request.setAttribute("page", "student.jsp");
-			request.getRequestDispatcher("./admin.jsp").forward(request, response);
-		} else if(action.equals("vendor")){
-			List<Vendor> list = new VendorDaoImpl().get();
-			request.setAttribute("list", list);
-			request.setAttribute("page", "vendor.jsp");
-			request.getRequestDispatcher("./admin.jsp").forward(request, response);
-		} else if(action.equals("staff")){
-			Staff staffDetail = (Staff)request.getSession().getAttribute("otherdetails");
-			List<Staff> list = staffDao.get(staffDetail.getDepartment());
-			request.setAttribute("list", list);
-			request.setAttribute("page", "staff.jsp");
-			request.getRequestDispatcher("./admin.jsp").forward(request, response);
-		} else if(action.equals("logout")){	
-			request.getSession().invalidate();
-			request.getRequestDispatcher("./home?action=login").forward(request, response);
-		}   else if(action.equals("createpass")){
-			request.setAttribute("page", "gard_home.jsp");
-			String leaveId=request.getParameter("leaveId");
-			Leave leave = new Leave();
-			leave.setId(Integer.parseInt(leaveId));
-			leave.setIsGatePassGenerate(1);
-			leave.setUpdatedBy(user.getUsername());
-			staffDao.GeneratePass(leave);
-			request.getRequestDispatcher("./admin?action=home").forward(request, response);
-		}     else if(action.equals("cancelpass")){
-			request.setAttribute("page", "gard_home.jsp");
-			String leaveId=request.getParameter("leaveId");
-			Leave leave = new Leave();
-			leave.setId(Integer.parseInt(leaveId));
-			leave.setIsGatePassGenerate(0);
-			leave.setUpdatedBy(user.getUsername());
-			staffDao.GeneratePass(leave);
-			request.getRequestDispatcher("./admin?action=home").forward(request, response);
-		}  else {
-			request.getRequestDispatcher("./admin.jsp").forward(request, response);
-		}
 	}
 
 	private Boolean redirect(HttpServletRequest request, HttpServletResponse response) throws IOException {

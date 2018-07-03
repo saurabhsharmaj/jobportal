@@ -22,7 +22,7 @@ if(request.getAttribute("staff") != null){
 
 					<div class="row">
 
-						<input type="hidden" name="staffid">
+						<input type="hidden" name="staffid" value="<%=staff.getStaffId()==null?"":staff.getStaffId() %>">
 
 						<div class="form-group col-lg-4 ">
 							<label for="staffname">Staff Name</label> <input type="text"

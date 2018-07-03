@@ -18,10 +18,11 @@ if(request.getSession().getAttribute("user") !=null){
                             </div>
                             <!-- /input-group -->
                         </li>
+                        <li>
+                            <a href="./admin?action=dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
                         <%if(user.getRole().equals(UserRole.ADMIN_ROLE)) {%>
-	                        <li>
-	                            <a href="./admin?action=dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-	                        </li>
+	                        
 	                        
 	                        <li>
 	                            <a href="./admin?action=user"><i class="fa fa-table fa-fw"></i> User</a>

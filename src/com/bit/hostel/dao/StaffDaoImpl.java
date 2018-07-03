@@ -495,5 +495,34 @@ public class StaffDaoImpl extends CommonDao<Staff> {
 	
 	}
 
+	public Integer getLeave(User user, String allowLeave) {
+		Connection con = getConnection();
+		try {
+			PreparedStatement stmt = null ;
+			if(allowLeave.equals(Constants.ALL_LEAVE)){
+				stmt = con.prepareStatement(CommonSql.ALL_LEAVE_STATUS_SQL);
+				stmt.setInt(1, user.getUserId());
+			} else {
+				stmt = con.prepareStatement(CommonSql.LEAVE_STATUS_SQL);
+				stmt.setInt(1, user.getUserId());
+				stmt.setString(2, allowLeave);
+			}
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				return rs.getInt(1);
+			}
+		}catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return 0;
+	}
+
 
 }
